@@ -33,8 +33,7 @@ public class Simulador {
         this.nombreCompañia = nombreCompañia;
     }
 
-    public static void init(){
-        System.out.println("Escribe el nombre de la empresa: ");        
+    public static void init(){    
     }
 
     /**
@@ -44,12 +43,8 @@ public class Simulador {
 
     }
 
-    /**
-     * @return 
-     */
-    public static String menúPisc(){
-        return "";
+    public static void menúPisc(){
+        
     }
-
 
 }
