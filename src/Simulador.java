@@ -1,6 +1,3 @@
-import propiedades.AlmacenPropiedades;
-import propiedades.PecesDatos;
-import propiedades.PecesTipo;
 
 public class Simulador {
     

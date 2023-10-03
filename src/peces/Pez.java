@@ -2,11 +2,8 @@ package peces;
 public class Pez {
     
     public int edad=0;
-    public final String NOMBRECOMUN;
-    public final String NOMBRECIENT;
-    public final boolean sexo;
-    public boolean fertil;
-    public boolean vivo;
+    public boolean fertil=false;
+    public boolean vivo=true;
 
     /**
      * 
@@ -14,5 +11,9 @@ public class Pez {
      */
     public static void showStatus(){
         
+    }
+    
+    public void Comer(){
+
     }
 }

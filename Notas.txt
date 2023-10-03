@@ -1,17 +1,17 @@
 Peces de río:
-    -Pejerrey
-    -Lucio del norte
-    -Carpín de tres espinas
-    -Koi
-    -Carpa
+    -Pejerrey (carnivoro)
+    -Lucio del norte (carnivoro,activo)
+    -Carpín de tres espinas (omnivoro, comedido)
+    -Koi (omnivoro, longevo)
+    -Carpa (omnivoro, voraz)
 
 Peces de mar:
-    -Abadejo
-    -Caballa
-    -Lenguado europeo
-    -Corvina
-    -Cobia
+    -Abadejo (carnivoro, comedido)
+    -Caballa (carnivoro)
+    -Lenguado europeo (carnivoro)
+    -Corvina (carnivoro, voraz)
+    -Besugo (carnivoro)
 
 Peces dobles:
-    -Dorada
-    -Trucha arcoiris
+    -Dorada (omnivoro)
+    -Trucha arcoiris (carnivoro)

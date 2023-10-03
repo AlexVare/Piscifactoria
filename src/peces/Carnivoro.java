@@ -1,11 +1,21 @@
 package peces;
 
+import java.net.NetPermission;
+import java.util.Random;
+
 public class Carnivoro extends Pez {
     
-    
-    public boolean Comer(){
+    @Override
+    public void Comer(){
         
-        
-        return false;
+        Random r= new Random();
+
+        if(pezMuerto()){
+            if(r.nextBoolean()){
+
+            }else{
+
+            }
+        }
     }
 }
