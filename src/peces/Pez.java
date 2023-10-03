@@ -1,4 +1,9 @@
 package peces;
+
+import estadisticas.Estadisticas;
+import propiedades.AlmacenPropiedades;
+import propiedades.PecesDatos;
+
 public class Pez {
     
     public int edad=0;
