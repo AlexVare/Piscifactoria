@@ -1,3 +1,7 @@
+import propiedades.AlmacenPropiedades;
+import propiedades.PecesDatos;
+import propiedades.PecesTipo;
+
 public class Simulador {
     
     public int dias=0;
@@ -40,7 +44,7 @@ public class Simulador {
      * 
      */
     public static void menu(){
-
+        
     }
 
     public static void menúPisc(){
