@@ -6,9 +6,10 @@ import propiedades.PecesDatos;
 
 public class Pez {
     
-    public int edad=0;
-    public boolean fertil=false;
-    public boolean vivo=true;
+    protected int edad=0;
+    protected boolean fertil=false;
+    protected boolean vivo=true;
+
 
     /**
      * 
@@ -19,6 +20,5 @@ public class Pez {
     }
     
     public void Comer(){
-
     }
 }

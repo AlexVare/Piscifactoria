@@ -6,8 +6,6 @@ public class Simulador {
     public String nombreCompañia="";
     
     public static void main(String[] args) throws Exception {
-        //Escribir main, menú y lógica  
-
     }
 
     public int getDias() {
@@ -26,15 +24,16 @@ public class Simulador {
         this.npiscifactorias = piscifactorias;
     }
 
-    public String getNombreCompañia() {
+    public String getNombreCompanhia() {
         return nombreCompañia;
     }
 
-    public void setNombreCompañia(String nombreCompañia) {
+    public void setNombreCompanhia(String nombreCompañia) {
         this.nombreCompañia = nombreCompañia;
     }
 
     public static void init(){    
+
     }
 
     /**
@@ -44,7 +43,7 @@ public class Simulador {
         
     }
 
-    public static void menúPisc(){
+    public static void menuPisc(){
         
     }
 
