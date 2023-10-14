@@ -1,12 +1,12 @@
 Peces de río:
     -Pejerrey (carnivoro)
     -Lucio del norte (carnivoro,activo)
-    -Carpín de tres espinas (omnivoro, comedido)
-    -Koi (omnivoro, longevo)
+    -Salmón chinook (carnívoro)
+    -Perca europea (carnívoro, activo)
     -Carpa (omnivoro, voraz)
 
 Peces de mar:
-    -Abadejo (carnivoro, comedido)
+    -Róbalo (carnívoro)
     -Caballa (carnivoro)
     -Lenguado europeo (carnivoro)
     -Corvina (carnivoro, voraz)

@@ -1,10 +1,18 @@
+package simulador;
+import java.util.ArrayList;
+
+import piscifactoria.Piscifactoria;
 
 public class Simulador {
     
-    public int dias=0;
-    public int npiscifactorias=0;
-    public String nombreCompañia="";
+    private int dias=0;
+    private int npiscifactorias=0;
+    private String nombreCompa="";
+    private ArrayList<Piscifactoria> piscifactorias= new ArrayList<Piscifactoria>();
     
+    public Simulador() {
+    }
+
     public static void main(String[] args) throws Exception {
     }
 
@@ -24,12 +32,12 @@ public class Simulador {
         this.npiscifactorias = piscifactorias;
     }
 
-    public String getNombreCompanhia() {
-        return nombreCompañia;
+    public String getNombreCompan() {
+        return nombreCompa;
     }
 
-    public void setNombreCompanhia(String nombreCompañia) {
-        this.nombreCompañia = nombreCompañia;
+    public void setNombreCompan(String nombreCompa) {
+        this.nombreCompa = nombreCompa;
     }
 
     public static void init(){    
