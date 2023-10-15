@@ -3,13 +3,13 @@ package peces;
 import java.util.Random;
 
 public class Pez {
-    
-    protected int edad=0;
-    protected boolean fertil=false;
-    protected boolean vivo=true;
-    protected boolean sexo=false;
 
-    public Pez(){
+    protected int edad = 0;
+    protected boolean fertil = false;
+    protected boolean vivo = true;
+    protected boolean sexo = false;
+
+    public Pez() {
 
     }
 
@@ -17,48 +17,68 @@ public class Pez {
      * 
      * 
      */
-    public String showStatus(){
+    public String showStatus() {
         return "";
     }
 
-    public boolean comer(){
+    public boolean comer() {
         return true;
     }
 
-    public void grow(){
-        Random muerte=new Random();
-        if(!this.comer()){
-            if(muerte.nextBoolean()){
-                this.vivo=false;
-            }
+    public void grow() {
+        if (!this.comer()) {
+            this.morision();
         }
-        if(this.vivo==true){
+        if (this.vivo == true) {
             this.edad++;
+            this.comprobarFertilidad();
         }
     }
 
     public int getEdad() {
         return edad;
     }
-
+    
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+    
     public boolean isFertil() {
         return fertil;
+    }
+    
+    public void setFertil(boolean fertil){
+        this.fertil=fertil;
     }
 
     public boolean isVivo() {
         return vivo;
     }
-
+    
+    public void setVivo(boolean vivo) {
+        this.vivo = vivo;
+    }
+    
     public boolean isSexo() {
         return sexo;
     }
-
-    public boolean comerPez(){
+    
+    public boolean eliminarPez() {
         Random comer = new Random();
-        if(comer.nextBoolean()){
+        if (comer.nextBoolean()) {
             return true;
-        }else{
+        } else {
             return false;
         }
+    }
+    
+    public void morision(){
+        Random muerte = new Random();
+        if(muerte.nextBoolean()){
+            this.setVivo(false);
+        }
+    }
+    
+    public void comprobarFertilidad() {
     }
 }

@@ -16,7 +16,7 @@ public class Piscifactoria {
         this.rio=rio;
         if(this.rio){
             this.tanques.add(new Tanque<Pez>(25));
-            this.ntanque=this.tanques.size();
+            this.setNtanque(this.tanques.size());
             this.almacen=25;
             this.almacenMax=25;
         }else{
@@ -38,4 +38,14 @@ public class Piscifactoria {
     public boolean isRio() {
         return rio;
     }
+
+    public void alimentar(){
+        for(int i=0; i<tanques.size();i++){
+            if(almacen!=0){
+            this.almacen=tanques.get(i).alimentar(this.almacen);
+            }
+        }
+    }
+
+    
 }

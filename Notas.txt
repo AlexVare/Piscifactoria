@@ -9,7 +9,7 @@ Peces de mar:
     -Róbalo (carnívoro)
     -Caballa (carnivoro)
     -Lenguado europeo (carnivoro)
-    -Corvina (carnivoro, voraz)
+    -Sargo (omnivoro)
     -Besugo (carnivoro)
 
 Peces dobles:

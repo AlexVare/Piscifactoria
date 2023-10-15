@@ -14,6 +14,8 @@ public class Simulador {
     }
 
     public static void main(String[] args) throws Exception {
+
+        init();
     }
 
     public int getDias() {
@@ -41,17 +43,17 @@ public class Simulador {
     }
 
     public static void init(){    
-
+        
     }
 
     /**
      * 
      */
-    public static void menu(){
+    public void menu(){
         
     }
 
-    public static void menuPisc(){
+    public void menuPisc(){
         
     }
 

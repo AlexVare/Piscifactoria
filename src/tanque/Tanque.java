@@ -16,7 +16,7 @@ public class Tanque<T extends Pez> {
     public boolean hasDead(){
         for(int i=0; i<peces.size();i++){
             if(!peces.get(i).isVivo()){
-                muertos++;
+                this.muertos++;
             }
         }
         if(muertos!=0){
@@ -26,5 +26,12 @@ public class Tanque<T extends Pez> {
         }
     }
 
+    public int alimentar(int comida){
+        int resto=comida;
+        if(this.hasDead()){
+            
+        }
+        return resto;
+    }
     
 }
