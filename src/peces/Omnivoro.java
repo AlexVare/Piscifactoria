@@ -5,18 +5,12 @@ import java.util.Random;
 public class Omnivoro extends Pez{
 
     @Override
-    public boolean comer() {
+    public int comer(int comida) {
         if(this.noComer()){
-        return super.comer();
+            return 0;
         }else{
-            return false;
+            return super.comer(comida);
         }
-    }
-
-    @Override
-    public boolean comerPez() {
-        // TODO Auto-generated method stub
-        return super.comerPez();
     }
     
     @Override

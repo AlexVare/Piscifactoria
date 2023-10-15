@@ -1,12 +1,12 @@
 Peces de río:
     -Pejerrey (carnivoro)
     -Lucio del norte (carnivoro,activo)
-    -Salmón chinook (carnívoro)
-    -Perca europea (carnívoro, activo)
+    -Salmón chinook (carnivoro)
+    -Perca europea (carnivoro, activo)
     -Carpa (omnivoro, voraz)
 
 Peces de mar:
-    -Róbalo (carnívoro)
+    -Róbalo (carnivoro)
     -Caballa (carnivoro)
     -Lenguado europeo (carnivoro)
     -Sargo (omnivoro)
@@ -15,3 +15,10 @@ Peces de mar:
 Peces dobles:
     -Dorada (omnivoro)
     -Trucha arcoiris (carnivoro)
+
+
+Función comer:
+    0: el pez no comió por su alimentacion (omnivoro)
+    1: el pez consumió 1 unidad
+    2: el pez consumió 2 unidades
+    3: el pez no comió por falta de comida

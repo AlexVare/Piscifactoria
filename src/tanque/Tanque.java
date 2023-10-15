@@ -1,37 +1,48 @@
 package tanque;
+
 import java.util.ArrayList;
 
 import peces.Pez;
 
 public class Tanque<T extends Pez> {
-    
+
     ArrayList<T> peces = new ArrayList<>();
     int capacidad;
-    int muertos=0;
+    ArrayList<Integer> muertos;
 
     public Tanque(int capacidad) {
-        this.capacidad=capacidad;
+        this.capacidad = capacidad;
     }
 
-    public boolean hasDead(){
-        for(int i=0; i<peces.size();i++){
-            if(!peces.get(i).isVivo()){
-                this.muertos++;
+    public boolean hasDead() {
+        for (int i = 0; i < peces.size(); i++) {
+            if (!peces.get(i).isVivo()) {
+                this.muertos.add(i);
             }
         }
-        if(muertos!=0){
+        if (muertos.size() != 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public int alimentar(int comida){
-        int resto=comida;
-        if(this.hasDead()){
-            
+    public int alimentar(int comida) {
+        int resto = comida;
+        for (int i = 0; i < peces.size(); i++) {
+            if (this.muertos.size() != 0) {
+                if (this.peces.get(i).eliminarPez()) {
+                    this.peces.remove(this.muertos.get(this.muertos.size()));
+                    this.muertos.remove(this.muertos.size());
+                }
+            }else{
+                
+                if(this.peces.get(i).comer(resto)!=3){
+
+                }
+            }
         }
         return resto;
     }
-    
+
 }

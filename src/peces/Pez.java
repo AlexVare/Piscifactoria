@@ -21,12 +21,16 @@ public class Pez {
         return "";
     }
 
-    public boolean comer() {
-        return true;
+    public int comer(int comida) {
+        if (comida != 0) {
+            return 1;
+        } else {
+            return 3;
+        }
     }
 
-    public void grow() {
-        if (!this.comer()) {
+    public void grow(int comida) {
+        if (this.comer(comida) == 3) {
             this.morision();
         }
         if (this.vivo == true) {
@@ -38,31 +42,31 @@ public class Pez {
     public int getEdad() {
         return edad;
     }
-    
+
     public void setEdad(int edad) {
         this.edad = edad;
     }
-    
+
     public boolean isFertil() {
         return fertil;
     }
-    
-    public void setFertil(boolean fertil){
-        this.fertil=fertil;
+
+    public void setFertil(boolean fertil) {
+        this.fertil = fertil;
     }
 
     public boolean isVivo() {
         return vivo;
     }
-    
+
     public void setVivo(boolean vivo) {
         this.vivo = vivo;
     }
-    
+
     public boolean isSexo() {
         return sexo;
     }
-    
+
     public boolean eliminarPez() {
         Random comer = new Random();
         if (comer.nextBoolean()) {
@@ -71,14 +75,14 @@ public class Pez {
             return false;
         }
     }
-    
-    public void morision(){
+
+    public void morision() {
         Random muerte = new Random();
-        if(muerte.nextBoolean()){
+        if (muerte.nextBoolean()) {
             this.setVivo(false);
         }
     }
-    
+
     public void comprobarFertilidad() {
     }
 }
