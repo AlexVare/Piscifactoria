@@ -1,7 +1,6 @@
 package peces;
 import java.util.Random;
 
-import tanque.Tanque;
 public class Carnivoro extends Pez {
 
     @Override
