@@ -7,7 +7,6 @@ import tanque.Tanque;
 public class Piscifactoria {
     
     private final boolean rio;
-    private int espacio=0;
     private int ntanque=0;
     private ArrayList<Tanque<Pez>> tanques= new ArrayList<>();
     private int almacen;
@@ -26,14 +25,6 @@ public class Piscifactoria {
             this.almacen=100;
             this.almacenMax=100;
         }
-    }
-
-    public int getEspacio() {
-        return espacio;
-    }
-
-    public void setEspacio(int espacio) {
-        this.espacio = espacio;
     }
 
     public int getNtanque() {

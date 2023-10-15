@@ -2,10 +2,6 @@ package peces;
 
 import java.util.Random;
 
-import propiedades.AlmacenPropiedades;
-import propiedades.PecesDatos;
-import tanque.Tanque;
-
 public class Pez {
     
     protected int edad=0;
@@ -13,7 +9,8 @@ public class Pez {
     protected boolean vivo=true;
     protected boolean sexo=false;
 
-    public Pez() {
+    public Pez(){
+
     }
 
     /**
@@ -23,7 +20,7 @@ public class Pez {
     public String showStatus(){
         return "";
     }
-    
+
     public boolean comer(){
         return true;
     }

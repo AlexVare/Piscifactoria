@@ -1,7 +1,5 @@
 package peces;
 
-import propiedades.PecesDatos;
-
 public class Voraz extends Pez{
     
 
@@ -16,7 +14,6 @@ public class Voraz extends Pez{
 
     @Override
     public String showStatus() {
-        // TODO Auto-generated method stub
         return super.showStatus();
     }
 }

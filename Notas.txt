@@ -15,5 +15,3 @@ Peces de mar:
 Peces dobles:
     -Dorada (omnivoro)
     -Trucha arcoiris (carnivoro)
-
-
