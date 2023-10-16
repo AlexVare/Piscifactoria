@@ -5,11 +5,11 @@ import propiedades.PecesDatos;
 
 public class Pejerrey extends Carnivoro{
     
-    private PecesDatos datos = AlmacenPropiedades.PEJERREY;
+    private final PecesDatos datos = AlmacenPropiedades.PEJERREY;
 
     @Override
-    public void comprobarFertilidad() {
-        if(this.edad>=this.datos.getMadurez() && (this.edad%this.datos.getCiclo())==0){
+    public void comprobarMadurez() {
+        if(this.edad>=this.datos.getMadurez()){
             this.setFertil(true);
         }else{
             this.setFertil(false);
