@@ -15,5 +15,4 @@ public class Pejerrey extends Carnivoro{
             this.setFertil(false);
         }
     }
-
 }

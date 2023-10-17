@@ -11,22 +11,25 @@ public class Simulador {
     private int npiscifactorias = 0;
     private String nombreCompa = "";
     private ArrayList<Piscifactoria> piscifactorias = new ArrayList<Piscifactoria>();
+    private Monedas monedas;
 
     public Simulador() {
+
     }
 
     public static void main(String[] args) throws Exception {
-        Piscifactoria pisc = null;
-        Monedas monedero = null;
-        init(pisc, monedero);
+        Simulador simulador = new Simulador();
+
+        simulador.init();
+
     }
 
     public int getDias() {
         return dias;
     }
 
-    public void setDias(int dias) {
-        this.dias = dias;
+    public void aumentarDias() {
+        this.dias++;
     }
 
     public int getPiscifactorias() {
@@ -45,16 +48,13 @@ public class Simulador {
         this.nombreCompa = nombreCompa;
     }
 
-    public static void init(Piscifactoria pisc, Monedas monedero) {
-        pisc = new Piscifactoria(true);
-        monedero = new Monedas(100);
+    public void init() {
+        this.monedas= new Monedas(100);
+        this.piscifactorias.add(new Piscifactoria(true));
     }
 
-    /**
-     * 
-     */
     public void menu() {
-
+        
     }
 
     public void menuPisc() {
