@@ -17,7 +17,7 @@ public class Monedas {
     }
 
     public boolean comprobarPosible(int precio) {
-        if(cantidad >= precio){
+        if (cantidad >= precio) {
             return true;
         } else {
             return false;

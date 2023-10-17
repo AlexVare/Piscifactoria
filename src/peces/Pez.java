@@ -64,9 +64,7 @@ public class Pez {
             if (this.vivo == true) {
                 this.edad++;
                 this.comprobarMadurez();
-                if(com==3){
-                    return 0;
-                }else{
+                if(com!=3){
                     return com;
                 }
             }

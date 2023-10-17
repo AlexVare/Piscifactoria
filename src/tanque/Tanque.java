@@ -1,7 +1,6 @@
 package tanque;
 
 import java.util.ArrayList;
-
 import peces.Pez;
 
 public class Tanque<T extends Pez> {
@@ -27,23 +26,24 @@ public class Tanque<T extends Pez> {
         }
     }
 
-    public int alimentar(int comida) {
+    public int nuevoDia(int comida) {
         int resto = comida;
         if (this.muertos.size() == 0) {
             this.hasDead();
         }
         for (int i = 0; i < peces.size(); i++) {
-            if (this.muertos.size() != 0) {
-                if (this.peces.get(i).eliminarPez()) {
-                    this.peces.remove(this.muertos.get(this.muertos.size()));
-                    this.muertos.remove(this.muertos.size());
+            if (this.peces.get(i).isVivo()) {
+                if (this.muertos.size() != 0) {
+                    if (this.peces.get(i).eliminarPez()) {
+                        this.peces.remove(this.muertos.get(this.muertos.size()));
+                        this.muertos.remove(this.muertos.size());
+                    }
                     this.peces.get(i).grow(resto, true);
+                } else {
+                    resto -= this.peces.get(i).grow(resto, false);
                 }
-            } else{
-                resto-=this.peces.get(i).grow(resto, false);
             }
         }
         return resto;
     }
-
 }
