@@ -23,4 +23,12 @@ public class Monedas {
             return false;
         }
     }
+
+    public void compra(int precio){
+        this.cantidad-=precio;
+    }
+
+    public void venta(int precio){
+        this.cantidad+=precio;
+    }
 }
