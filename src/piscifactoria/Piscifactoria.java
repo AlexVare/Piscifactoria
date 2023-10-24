@@ -41,9 +41,9 @@ public class Piscifactoria {
     public Monedas upgradeFood(Monedas monedero) {
         if (this.rio) {
             if (monedero.comprobarPosible(100)) {
-                if (this.almacen < 250) {
+                if (this.almacenMax < 250) {
                     monedero.compra(100);
-                    this.almacen += 25;
+                    this.almacenMax += 25;
                 } else {
                     System.out.println("No puedes aumentar la capacidad");
                 }
@@ -53,9 +53,9 @@ public class Piscifactoria {
             return monedero;
         } else {
             if (monedero.comprobarPosible(200)) {
-                if (this.almacen < 1000) {
+                if (this.almacenMax < 1000) {
                     monedero.compra(200);
-                    this.almacen += 100;
+                    this.almacenMax += 100;
                 } else {
                     System.out.println("No puedes aumentar la capacidad");
                 }
@@ -95,6 +95,6 @@ public class Piscifactoria {
     }
 
     public void showStatus(){
-        
+
     }
 }
