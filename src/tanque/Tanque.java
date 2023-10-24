@@ -14,6 +14,7 @@ public class Tanque<T extends Pez> {
     }
 
     public boolean hasDead() {
+        this.muertos.removeAll(muertos);
         for (int i = 0; i < peces.size(); i++) {
             if (!peces.get(i).isVivo()) {
                 this.muertos.add(i);
@@ -26,17 +27,17 @@ public class Tanque<T extends Pez> {
         }
     }
 
-    public int nuevoDia(int comida) {
+    public int nuevoDiaComer(int comida) {
         int resto = comida;
-        if (this.muertos.size() == 0) {
-            this.hasDead();
-        }
+        int cadaveres=0;
+        
+        this.hasDead();
+        cadaveres = this.muertos.size();
         for (int i = 0; i < peces.size(); i++) {
             if (this.peces.get(i).isVivo()) {
                 if (this.muertos.size() != 0) {
                     if (this.peces.get(i).eliminarPez()) {
-                        this.peces.remove(this.muertos.get(this.muertos.size()));
-                        this.muertos.remove(this.muertos.size());
+                        cadaveres--;
                     }
                     this.peces.get(i).grow(resto, true);
                 } else {
@@ -44,6 +45,25 @@ public class Tanque<T extends Pez> {
                 }
             }
         }
+        //Quitar peces comidos
+        if(this.muertos.size()!=0){
+            for(int i=muertos.size();i>cadaveres;i--){
+                this.peces.remove((int)this.muertos.get(i));
+            }
+        }
         return resto;
     }
+
+    public void nuevoDiaReproduccion(){
+        for(int i=0; i<this.peces.size();i++){
+            if(this.peces.get(i).isVivo()){
+                this.peces.get(i).comprobarMadurez();
+                if(this.peces.get(i).isFertil()){
+                    this.peces.get(i).comprobarFertilidad();
+                }
+            }
+        }
+    }
+
+    
 }

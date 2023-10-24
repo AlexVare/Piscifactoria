@@ -8,6 +8,7 @@ public class Pez {
     protected boolean fertil = false;
     protected boolean vivo = true;
     protected boolean sexo = false;
+    protected int ciclo=0;
 
     public int getEdad() {
         return edad;

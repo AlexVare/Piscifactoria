@@ -40,11 +40,14 @@ public class Piscifactoria {
         return rio;
     }
 
-    public void alimentar() {
+    public void nuevoDia() {
         for (int i = 0; i < tanques.size(); i++) {
             if (almacen != 0) {
-                this.almacen = tanques.get(i).nuevoDia(this.almacen);
+                this.almacen = tanques.get(i).nuevoDiaComer(this.almacen);
+                tanques.get(i).nuevoDiaReproduccion();
             }
         }
     }
+
+    
 }

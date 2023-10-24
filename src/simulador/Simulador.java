@@ -99,10 +99,6 @@ public class Simulador {
         return dias;
     }
 
-    public void aumentarDias() {
-        this.dias++;
-    }
-
     public int getPiscifactorias() {
         return npiscifactorias;
     }
@@ -144,6 +140,6 @@ public class Simulador {
     }
 
     public void menuPisc() {
-
+        
     }
 }
