@@ -103,10 +103,6 @@ public class Simulador {
         return npiscifactorias;
     }
 
-    public void setPiscifactorias(int piscifactorias) {
-        this.npiscifactorias = piscifactorias;
-    }
-
     public String getNombreCompa() {
         return nombreCompa;
     }
@@ -140,6 +136,6 @@ public class Simulador {
     }
 
     public void menuPisc() {
-        
+
     }
 }

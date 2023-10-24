@@ -65,5 +65,16 @@ public class Tanque<T extends Pez> {
         }
     }
 
+    public void limpiarTanque(){
+        this.hasDead();
+        for (Integer muerto : muertos) {
+            this.peces.remove((int)muerto);
+        }
+    }
+
+    public void vaciarTanque(){
+        this.peces.removeAll(peces);
+    }
+
     
 }

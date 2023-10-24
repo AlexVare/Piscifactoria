@@ -1,14 +1,13 @@
 package piscifactoria;
 
 import java.util.ArrayList;
-
+import monedero.Monedas;
 import peces.Pez;
 import tanque.Tanque;
 
 public class Piscifactoria {
 
     private final boolean rio;
-    private int ntanque = 0;
     private ArrayList<Tanque<Pez>> tanques = new ArrayList<>();
     private int almacen;
     private int almacenMax;
@@ -17,23 +16,13 @@ public class Piscifactoria {
         this.rio = rio;
         if (this.rio) {
             this.tanques.add(new Tanque<Pez>(25));
-            this.setNtanque(this.tanques.size());
             this.almacen = 25;
             this.almacenMax = 25;
         } else {
             this.tanques.add(new Tanque<Pez>(100));
-            this.ntanque = this.tanques.size();
             this.almacen = 100;
             this.almacenMax = 100;
         }
-    }
-
-    public int getNtanque() {
-        return ntanque;
-    }
-
-    public void setNtanque(int ntanque) {
-        this.ntanque = ntanque;
     }
 
     public boolean isRio() {
@@ -49,5 +38,63 @@ public class Piscifactoria {
         }
     }
 
-    
+    public Monedas upgradeFood(Monedas monedero) {
+        if (this.rio) {
+            if (monedero.comprobarPosible(100)) {
+                if (this.almacen < 250) {
+                    monedero.compra(100);
+                    this.almacen += 25;
+                } else {
+                    System.out.println("No puedes aumentar la capacidad");
+                }
+            } else {
+                System.out.println("No tienes dinero suficiente");
+            }
+            return monedero;
+        } else {
+            if (monedero.comprobarPosible(200)) {
+                if (this.almacen < 1000) {
+                    monedero.compra(200);
+                    this.almacen += 100;
+                } else {
+                    System.out.println("No puedes aumentar la capacidad");
+                }
+            } else {
+                System.out.println("No tienes dinero suficiente");
+            }
+            return monedero;
+        }
+    }
+
+    public Monedas comprarTanque(Monedas monedero) {
+        if (this.rio) {
+            if (monedero.comprobarPosible(150 * this.tanques.size())) {
+                if (this.tanques.size() < 10) {
+                    monedero.compra(150 * this.tanques.size());
+                    this.tanques.add(new Tanque<Pez>(25));
+                } else {
+                    System.out.println("No es posible comprar un nuevo tanque, llegaste al maximo");
+                }
+            }else{
+                System.out.println("No tienes dinero suciciente");
+            }
+            return monedero;
+        } else {
+            if (monedero.comprobarPosible(600 * this.tanques.size())) {
+                if (this.tanques.size() < 10) {
+                    monedero.compra(600 * this.tanques.size());
+                    this.tanques.add(new Tanque<Pez>(100));
+                } else {
+                    System.out.println("No es posible comprar un nuevo tanque, llegaste al maximo");
+                }
+            }else{
+                System.out.println("No tienes dinero suciciente");
+            }
+            return monedero;
+        }
+    }
+
+    public void showStatus(){
+        
+    }
 }
