@@ -9,7 +9,6 @@ import piscifactoria.Piscifactoria;
 public class Simulador {
 
     private int dias = 0;
-    private int npiscifactorias = 0;
     private String nombreCompa = "";
     private ArrayList<Piscifactoria> piscifactorias = new ArrayList<Piscifactoria>();
     private Monedas monedas= new Monedas(0);
@@ -100,7 +99,7 @@ public class Simulador {
     }
 
     public int getPiscifactorias() {
-        return npiscifactorias;
+        return this.piscifactorias.size();
     }
 
     public String getNombreCompa() {

@@ -11,14 +11,17 @@ public class Pejerrey extends Carnivoro{
     public void comprobarMadurez() {
         if(this.edad>=this.datos.getMadurez()){
             this.setFertil(true);
+
         }else{
             this.setFertil(false);
         }
     }
 
-    public void reproduccion() {
-        if(this.fertil&&this.edad%this.datos.getCiclo()==0){
-
+    public boolean reproduccion() {
+        if(this.maduro&&this.edad%this.datos.getCiclo()==0){
+            return true;
+        }else{
+            return false;
         }
     }
 
