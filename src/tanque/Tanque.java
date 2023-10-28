@@ -1,16 +1,22 @@
 package tanque;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import peces.Pez;
 
 public class Tanque<T extends Pez> {
 
-    ArrayList<T> peces = new ArrayList<>();
+    ArrayList<Pez> peces = new ArrayList<>();
+    
     int capacidad;
     ArrayList<Integer> muertos;
-
+    
     public Tanque(int capacidad) {
         this.capacidad = capacidad;
+    }
+    
+    public ArrayList<Pez> getPeces() {
+        return peces;
     }
 
     public boolean hasDead() {
@@ -29,52 +35,103 @@ public class Tanque<T extends Pez> {
 
     public int nuevoDiaComer(int comida) {
         int resto = comida;
-        int cadaveres=0;
-        
+        int cadaveres = 0;
+
         this.hasDead();
         cadaveres = this.muertos.size();
-        for (int i = 0; i < peces.size(); i++) {
-            if (this.peces.get(i).isVivo()) {
+        for (Pez pez : peces) {
+            if (pez.isVivo()) {
                 if (this.muertos.size() != 0) {
-                    if (this.peces.get(i).eliminarPez()) {
+                    if (pez.eliminarPez()) {
                         cadaveres--;
                     }
-                    this.peces.get(i).grow(resto, true);
+                    pez.grow(resto, true);
                 } else {
-                    resto -= this.peces.get(i).grow(resto, false);
+                    resto -= pez.grow(resto, false);
                 }
             }
         }
-        //Quitar peces comidos
-        if(this.muertos.size()!=0){
-            for(int i=muertos.size();i>cadaveres;i--){
-                this.peces.remove((int)this.muertos.get(i));
+        // Quitar peces comidos
+        if (this.muertos.size() != 0) {
+            for (int i = muertos.size(); i > cadaveres; i--) {
+                this.peces.remove((int) this.muertos.get(i));
             }
         }
         return resto;
     }
 
-    public void nuevoDiaReproduccion(){
-        for(int i=0; i<this.peces.size();i++){
-            if(this.peces.get(i).isVivo()){
-                this.peces.get(i).comprobarMadurez();
-                if(this.peces.get(i).isFertil()){
-                    this.peces.get(i).comprobarFertilidad();
+    public void nuevoDiaReproduccion() {
+        for (Pez pez : peces) {
+            int espacio = this.capacidad - this.peces.size();
+            if (pez.isVivo()) {
+                if (espacio > 0) {
+                    if (pez.isMaduro() && pez.reproduccion()) {
+                        int huevos = pez.getDatos().getHuevos();
+                        if (huevos <= espacio) {
+                            try {
+                                this.nuevoPez(huevos);
+                            } catch (Exception e) {
+                                System.out.println("Error al introducir el pez");
+                            }
+                        } else {
+                            try {
+                                this.nuevoPez(espacio);
+                            } catch (Exception e) {
+                                System.out.println("Error al introducir el pez");
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
-    public void limpiarTanque(){
+    public void limpiarTanque() {
         this.hasDead();
         for (Integer muerto : muertos) {
-            this.peces.remove((int)muerto);
+            this.peces.remove((int) muerto);
         }
     }
 
-    public void vaciarTanque(){
+    public void vaciarTanque() {
         this.peces.removeAll(peces);
     }
 
-    
+    public void nuevoPez(int cantidad) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, SecurityException {
+        if (this.peces.size() != 0) {
+            for (int i = 0; i < cantidad; i++) {
+                Pez npez = this.peces.get(1).getClass().getDeclaredConstructor().newInstance(this.sexoNuevoPez());
+                this.peces.add(npez);
+            }
+        }
+    }
+
+    public int machos() {
+        int machos = 0;
+        for (Pez pez : peces) {
+            if (pez.isSexo() && pez.isVivo()) {
+                machos++;
+            }
+        }
+        return machos;
+    }
+
+    public int hembras() {
+        int hembras = 0;
+        for (Pez pez : peces) {
+            if (!pez.isSexo() && pez.isVivo()) {
+                hembras++;
+            }
+        }
+        return hembras;
+    }
+
+    public boolean sexoNuevoPez() {
+        if (this.machos() >= this.hembras()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

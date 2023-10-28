@@ -2,7 +2,11 @@ package peces;
 
 import java.util.Random;
 
-public class Omnivoro extends Pez {
+public abstract class Omnivoro extends Pez {
+
+    public Omnivoro(boolean sexo) {
+        super(sexo);
+    }
 
     private boolean noComer(){
         Random r = new Random();

@@ -2,13 +2,25 @@ package peces;
 
 import java.util.Random;
 
-public class Pez {
+import propiedades.PecesDatos;
+
+public abstract class Pez {
 
     protected int edad = 0;
     protected boolean maduro = false;
     protected boolean vivo = true;
     protected boolean sexo = false;
-    protected int ciclo=0;
+    protected int ciclo = 0;
+    protected PecesDatos datos;
+    protected boolean alimentado = true;
+
+    public Pez(boolean sexo) {
+        this.sexo = sexo;
+    }
+
+    public PecesDatos getDatos() {
+        return datos;
+    }
 
     public int getEdad() {
         return edad;
@@ -18,11 +30,11 @@ public class Pez {
         this.edad = edad;
     }
 
-    public boolean isFertil() {
+    public boolean isMaduro() {
         return maduro;
     }
 
-    public void setFertil(boolean fertil) {
+    public void setMaduro(boolean fertil) {
         this.maduro = fertil;
     }
 
@@ -34,12 +46,41 @@ public class Pez {
         this.vivo = vivo;
     }
 
-    public boolean isSexo() {
+    public boolean isSexo(){
         return sexo;
     }
+    
+    public String getSexo() {
+        if (this.sexo) {
+            return "Macho";
+        } else {
+            return "Hembra";
+        }
+    }
 
-    public String showStatus() {
-        return "";
+    public void showStatus() {
+        System.out.println("----------" + this.datos.getNombre() + "----------");
+        System.out.println("Edad: " + this.edad + "días");
+        if (this.sexo) {
+            System.out.println("Sexo: H");
+        } else {
+            System.out.println("Sexo: M");
+        }
+        if (this.vivo) {
+            System.out.println("Vivo: Si");
+        } else {
+            System.out.println("Vivo: No");
+        }
+        if (this.maduro) {
+            System.out.println("Adulto: Si");
+        } else {
+            System.out.println("Adulto: No");
+        }
+        if (this.ciclo == 0) {
+            System.out.println("Fértil: Si");
+        } else {
+            System.out.println("Fértil: No");
+        }
     }
 
     public int comer(int comida) {
@@ -60,12 +101,13 @@ public class Pez {
         } else {
             int com = this.comer(comida);
             if (com == 3) {
+                this.alimentado = false;
                 this.morision();
             }
             if (this.vivo == true) {
                 this.edad++;
                 this.comprobarMadurez();
-                if(com!=3){
+                if (com != 3) {
                     return com;
                 }
             }
@@ -89,9 +131,22 @@ public class Pez {
         }
     }
 
-    public void comprobarFertilidad() {
+    public boolean reproduccion() {
+        if (this.maduro && this.edad % this.datos.getCiclo() == 0 && !this.sexo) {
+            this.ciclo = this.datos.getCiclo();
+            return true;
+        } else {
+            this.ciclo--;
+            return false;
+        }
     }
 
     public void comprobarMadurez() {
+        if (this.edad >= this.datos.getMadurez()) {
+            this.setMaduro(true);
+
+        } else {
+            this.setMaduro(false);
+        }
     }
 }
