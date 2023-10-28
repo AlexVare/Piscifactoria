@@ -7,6 +7,10 @@ public class Carpa extends Omnivoro{
     
      private final PecesDatos datos = AlmacenPropiedades.CARPA;
 
+    public PecesDatos getDatos() {
+        return datos;
+    }
+
     public Carpa(boolean sexo){
         super(sexo);
         this.ciclo=this.datos.getCiclo();

@@ -18,13 +18,12 @@ public class AlmacenCentral {
         this.capacidad = 200;
     }
     
-    public Monedas upgrade(Monedas monedero){
-        if(monedero.comprobarPosible(100)){
-            monedero.compra(100);
+    public void upgrade(){
+        if(Monedas.getInstancia().comprobarPosible(100)){
+            Monedas.getInstancia().compra(100);
             this.setCapacidad(50);
         }else{
             System.out.println("No tienes monedas suficientes");
         }
-        return monedero;
     }
 }

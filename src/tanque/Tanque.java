@@ -2,6 +2,7 @@ package tanque;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import estadisticas.Estadisticas;
 import monedero.Monedas;
@@ -12,13 +13,20 @@ public class Tanque<T extends Pez> {
 
     ArrayList<Pez> peces = new ArrayList<>();
     int capacidad;
-    
+    int vendidos=0;
+    int ganancias=0;
     ArrayList<Integer> muertos;
     
     public Tanque(int capacidad) {
         this.capacidad = capacidad;
     }
     
+    public int getGanancias() {
+        return ganancias;
+    }
+    public int getVendidos() {
+        return vendidos;
+    }
     public int getCapacidad() {
         return capacidad;
     }
@@ -156,11 +164,29 @@ public class Tanque<T extends Pez> {
     }
     
     public void comprarPez(Pez pez){
+        
         if (Monedas.getInstancia().comprobarPosible(pez.getDatos().getCoste())) {
             Monedas.getInstancia().compra(pez.getDatos().getCoste());
             this.peces.add(pez);
         }else{
             System.out.println("No tienes monedas suficientes");
         }
+    }
+
+    public void venderOptimos(){
+        Iterator<Pez> iterator = this.peces.iterator();
+        this.vendidos=0;
+        this.ganancias=0;
+        while (iterator.hasNext()) {
+            Pez pez = iterator.next();
+            if (pez.isOptimo()&&pez.isVivo()) {
+                Monedas.getInstancia().venta(pez.getDatos().getMonedas());
+                Stats.getInstancia().registrarVenta(pez.getDatos().getNombre(), pez.getDatos().getMonedas());
+                this.vendidos++;
+                this.ganancias+=pez.getDatos().getMonedas();
+                iterator.remove();
+            }
+        }
+        
     }
 }

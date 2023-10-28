@@ -56,12 +56,25 @@ public class Piscifactoria {
     }
 
     public void nuevoDia() {
-        for (int i = 0; i < tanques.size(); i++) {
+        for (int i = 0; i < this.tanques.size(); i++) {
             if (almacen != 0) {
-                this.almacen -= tanques.get(i).nuevoDiaComer(this.almacen);
-                tanques.get(i).nuevoDiaReproduccion();
+                this.almacen -= this.tanques.get(i).nuevoDiaComer(this.almacen);
+                this.tanques.get(i).nuevoDiaReproduccion();
             }
+            this.tanques.get(i).venderOptimos();
+            System.out.println("Piscifactoria "+this.nombre+": "+ this.tanques.get(i).getVendidos() + " peces vendidos por " + this.tanques.get(i).getGanancias()+ " monedas");
         }
+        this.gananciaDiaria();
+    }
+
+    public void gananciaDiaria(){
+        int cantidad=0;
+        int ganancia=0;
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad+=tanque.getVendidos();
+            ganancia+=tanque.getGanancias();
+        }
+        System.out.println("Piscifactoria "+this.nombre+": "+ cantidad + " peces vendidos por " + ganancia + " monedas totales");
     }
 
     public void upgradeFood() {
@@ -122,13 +135,13 @@ public class Piscifactoria {
 
     public void nuevoPez() {
         Scanner sc = new Scanner(System.in);
-        int opcion;
+        int opcion=0;
         int pez = 0;
         try {
             do {
                 this.listTanks();
                 opcion = Integer.parseInt(sc.nextLine());
-                if (opcion < 1 || opcion > this.tanques.size()) {
+                if (opcion < 0 || opcion > this.tanques.size()) {
                     System.out.println("Opción no válida, introduce uno de los valores mostrados");
                 } else {
                     if (this.tanques.get(opcion).getPeces().size() != 0) {
@@ -142,7 +155,8 @@ public class Piscifactoria {
                             this.opcionPez();
                             try {
                                 pez = Integer.parseInt(sc.nextLine());
-                                if (pez < 1 || pez > 7) {
+                                System.out.println(pez);
+                                if (pez > 1 && pez < 7) {
                                     this.añadirPez(opcion, pez);
                                 } else {
                                     System.out.println("Opción no válida, introduce una de las opciones mostradas");

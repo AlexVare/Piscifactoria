@@ -151,4 +151,14 @@ public abstract class Pez {
             this.setMaduro(false);
         }
     }
+
+    public boolean isOptimo(){
+            if(this.edad==this.datos.getOptimo()){
+                return true;
+            }else{
+                return false;
+            }
+    }
+
+    
 }

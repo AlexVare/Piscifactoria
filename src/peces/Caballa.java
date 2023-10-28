@@ -6,6 +6,10 @@ import propiedades.PecesDatos;
 public class Caballa extends Pez{
     private final PecesDatos datos = AlmacenPropiedades.CABALLA;
 
+    public PecesDatos getDatos() {
+        return datos;
+    }
+
     public Caballa(boolean sexo){
         super(sexo);
         this.ciclo=this.datos.getCiclo();

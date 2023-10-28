@@ -7,6 +7,10 @@ public class SalmonChinook extends Pez{
 
     private final PecesDatos datos = AlmacenPropiedades.SALMON_CHINOOK;
 
+    public PecesDatos getDatos() {
+        return datos;
+    }
+
     public SalmonChinook(boolean sexo) {
         super(sexo);
         this.ciclo=this.datos.getCiclo();

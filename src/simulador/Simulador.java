@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import almacenCentral.AlmacenCentral;
-import estadisticas.Estadisticas;
 import monedero.Monedas;
-import peces.Pez;
 import piscifactoria.Piscifactoria;
 import propiedades.AlmacenPropiedades;
 import stats.Stats;
@@ -25,7 +23,6 @@ public class Simulador {
     private ArrayList<Piscifactoria> piscifactorias = new ArrayList<Piscifactoria>();
     private AlmacenCentral almacenCentral = null;
     private static Scanner sc = new Scanner(System.in);
-    private Estadisticas stats = new Estadisticas(peces);
 
     public Simulador() {
 
@@ -38,6 +35,7 @@ public class Simulador {
         try {
             simulador.init();
             do {
+                salida=0;
                 System.out.println("Dia: " + simulador.getDias());
                 if (simulador.getDias() == 0) {
                     System.out.println("Bienvenido a " + simulador.getNombreCompa() + ", que desea hacer?");
@@ -64,7 +62,7 @@ public class Simulador {
                         Stats.getInstancia().mostrar();
                         break;
                     case 5:
-
+                        simulador.showIctio();
                         break;
                     case 6:
 
@@ -171,9 +169,9 @@ public class Simulador {
                 if (pisc < 1 || pisc > this.piscifactorias.size()) {
                     System.out.println("Índice incorrecto, inserta un valor de los indicados");
                 } else {
-                    this.piscifactorias.get(pisc - 1).nuevoPez();
+                    this.piscifactorias.get(pisc-1).nuevoPez();
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 System.out.println("Argumento inválido, retrocediendo al menú principal");
             }
 
@@ -237,6 +235,7 @@ public class Simulador {
                                         System.out.println("******Mejorar piscifactoría******");
                                         System.out.println("1. Comprar tanque");
                                         System.out.println("2. Aumentar almacén");
+                                        System.out.println("3. Cancelar");
                                         opcion = Integer.parseInt(sc.nextLine());
                                         switch (opcion) {
                                             case 1:
@@ -245,12 +244,14 @@ public class Simulador {
                                             case 2:
                                                 this.piscifactorias.get(pisc - 1).upgradeFood();
                                                 break;
+                                            case 3:
+                                            opcion=2;
+                                            break;
                                             default:
-                                                System.out
-                                                        .println("Opción no válida, inserta un valor de los indicados");
+                                                System.out.println("Opción no válida, inserta un valor de los indicados");
                                                 break;
                                         }
-                                    } while (opcion != 1 || opcion != 2);
+                                    } while (opcion != 1 || opcion != 2 || opcion!=3);
                                 }
                             } catch (NumberFormatException e) {
                                 System.out.println("Opción no válida, inserta un valor de los indicados");
@@ -259,7 +260,7 @@ public class Simulador {
                         break;
                     case 2:
                         if (almacenCentral != null) {
-                             this.almacenCentral.upgrade(Monedas.getInstancia());
+                            this.almacenCentral.upgrade();
                         } else {
                             System.out.println("Opción no válida, retrocediendo al menú principal");
                         }
@@ -362,5 +363,63 @@ public class Simulador {
         } else {
             System.out.println("No tienes suficientes monedas");
         }
+    }
+
+    public void showIctio() {
+        int opcion = 0;
+        do {
+            for (int i = 0; i < peces.length; i++) {
+                System.out.println((i + 1) + ". " + peces[i]);
+            }
+            try {
+                opcion = Integer.parseInt(sc.nextLine());
+                if (opcion < 1 || opcion > peces.length) {
+                    System.out.println("Opción no válida");
+                } else {
+                    switch (opcion) {
+                        case 1:
+                            System.out.println(AlmacenPropiedades.BESUGO.toString());
+                        break;
+                        case 2:
+                            System.out.println(AlmacenPropiedades.PEJERREY.toString());
+                        break;
+                        case 3:
+                            System.out.println(AlmacenPropiedades.CARPA.toString());
+                        break;
+                        case 4:
+                           System.out.println(AlmacenPropiedades.SALMON_CHINOOK.toString());
+                        break;
+                        case 5:
+                            System.out.println(AlmacenPropiedades.LUCIO_NORTE.toString());
+                        break;
+                        case 6:
+                           System.out.println(AlmacenPropiedades.PERCA_EUROPEA.toString());
+                        break;
+                        case 7:
+                           System.out.println(AlmacenPropiedades.ROBALO.toString());
+                        break;
+                        case 8:
+                           System.out.println(AlmacenPropiedades.CABALLA.toString());
+                        break;
+                        case 9:
+                           System.out.println(AlmacenPropiedades.LENGUADO_EUROPEO.toString());
+                        break;
+                        case 10:
+                           System.out.println(AlmacenPropiedades.SARGO.toString());
+                        break;
+                        case 11:
+                           System.out.println(AlmacenPropiedades.DORADA.toString());
+                        break;
+                        case 12:
+                           System.out.println(AlmacenPropiedades.TRUCHA_ARCOIRIS.toString());
+                        break;
+                        default:
+                            break;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Opción no válida");
+            }
+        } while (opcion < 1 || opcion > peces.length);
     }
 }
