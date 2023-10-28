@@ -4,7 +4,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import monedero.Monedas;
+import peces.Besugo;
+import peces.Caballa;
+import peces.Carpa;
+import peces.Dorada;
+import peces.LenguadoEuropeo;
+import peces.LucioDelNorte;
+import peces.Pejerrey;
+import peces.PercaEuropea;
 import peces.Pez;
+import peces.Robalo;
+import peces.SalmonChinook;
+import peces.Sargo;
+import peces.TruchaArcoiris;
 import tanque.Tanque;
 
 public class Piscifactoria {
@@ -52,11 +64,11 @@ public class Piscifactoria {
         }
     }
 
-    public Monedas upgradeFood(Monedas monedero) {
+    public void upgradeFood() {
         if (this.rio) {
-            if (monedero.comprobarPosible(100)) {
+            if (Monedas.getInstancia().comprobarPosible(100)) {
                 if (this.almacenMax < 250) {
-                    monedero.compra(100);
+                    Monedas.getInstancia().compra(100);
                     this.almacenMax += 25;
                 } else {
                     System.out.println("No puedes aumentar la capacidad");
@@ -64,11 +76,10 @@ public class Piscifactoria {
             } else {
                 System.out.println("No tienes dinero suficiente");
             }
-            return monedero;
         } else {
-            if (monedero.comprobarPosible(200)) {
+            if (Monedas.getInstancia().comprobarPosible(200)) {
                 if (this.almacenMax < 1000) {
-                    monedero.compra(200);
+                    Monedas.getInstancia().compra(200);
                     this.almacenMax += 100;
                 } else {
                     System.out.println("No puedes aumentar la capacidad");
@@ -76,15 +87,14 @@ public class Piscifactoria {
             } else {
                 System.out.println("No tienes dinero suficiente");
             }
-            return monedero;
         }
     }
 
-    public Monedas comprarTanque(Monedas monedero) {
+    public void comprarTanque() {
         if (this.rio) {
-            if (monedero.comprobarPosible(150 * this.tanques.size())) {
+            if (Monedas.getInstancia().comprobarPosible(150 * this.tanques.size())) {
                 if (this.tanques.size() < 10) {
-                    monedero.compra(150 * this.tanques.size());
+                    Monedas.getInstancia().compra(150 * this.tanques.size());
                     this.tanques.add(new Tanque<Pez>(25));
                 } else {
                     System.out.println("No es posible comprar un nuevo tanque, llegaste al máximo");
@@ -92,11 +102,10 @@ public class Piscifactoria {
             } else {
                 System.out.println("No tienes dinero suciciente");
             }
-            return monedero;
         } else {
-            if (monedero.comprobarPosible(600 * this.tanques.size())) {
+            if (Monedas.getInstancia().comprobarPosible(600 * this.tanques.size())) {
                 if (this.tanques.size() < 10) {
-                    monedero.compra(600 * this.tanques.size());
+                    Monedas.getInstancia().compra(600 * this.tanques.size());
                     this.tanques.add(new Tanque<Pez>(100));
                 } else {
                     System.out.println("No es posible comprar un nuevo tanque, llegaste al máximo");
@@ -104,7 +113,6 @@ public class Piscifactoria {
             } else {
                 System.out.println("No tienes dinero suciciente");
             }
-            return monedero;
         }
     }
 
@@ -112,9 +120,10 @@ public class Piscifactoria {
 
     }
 
-    public Monedas nuevoPez(Monedas monedero) {
+    public void nuevoPez() {
         Scanner sc = new Scanner(System.in);
         int opcion;
+        int pez = 0;
         try {
             do {
                 this.listTanks();
@@ -124,19 +133,30 @@ public class Piscifactoria {
                 } else {
                     if (this.tanques.get(opcion).getPeces().size() != 0) {
                         try {
-                            monedero = this.tanques.get(opcion).comprarPez(monedero);
+                             this.tanques.get(opcion).comprarPez();
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
-                    }else{
-                        this.opcionPez();
+                    } else {
+                        do {
+                            this.opcionPez();
+                            try {
+                                pez = Integer.parseInt(sc.nextLine());
+                                if (pez < 1 || pez > 7) {
+                                    this.añadirPez(opcion, pez);
+                                } else {
+                                    System.out.println("Opción no válida, introduce una de las opciones mostradas");
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Opción no valida, introduce una de las opciones mostradas");
+                            }
+                        } while (pez < 1 || pez > 7);
                     }
                 }
             } while (opcion < 1 || opcion > this.tanques.size());
         } catch (NumberFormatException e) {
             System.out.println("Opción no válida");
         }
-        return monedero;
     }
 
     public void listTanks() {
@@ -144,13 +164,16 @@ public class Piscifactoria {
             if (this.tanques.get(i).getPeces().size() == 0) {
                 System.out.println(i + ". Tanque vacío");
             } else {
-                System.out.println((i + 1) + ". Pez:" + this.tanques.get(i).getPeces().get(0).getDatos().getNombre());
+                if (!(this.tanques.get(i).getPeces().size() == this.tanques.get(i).getCapacidad())) {
+                    System.out
+                            .println((i + 1) + ". Pez:" + this.tanques.get(i).getPeces().get(0).getDatos().getNombre());
+                }
             }
         }
     }
 
-    public void opcionPez(){
-        if(this.rio){
+    public void opcionPez() {
+        if (this.rio) {
             System.out.println("******Peces******");
             System.out.println("1.Pejerrey");
             System.out.println("2.Lucio del norte");
@@ -159,7 +182,7 @@ public class Piscifactoria {
             System.out.println("5.Carpa");
             System.out.println("6.Dorada");
             System.out.println("7.Trucha arcoiris");
-        }else{
+        } else {
             System.out.println("******Peces******");
             System.out.println("1.Róbalo");
             System.out.println("2.Caballa");
@@ -168,6 +191,71 @@ public class Piscifactoria {
             System.out.println("5.Besugo");
             System.out.println("6.Dorada");
             System.out.println("7.Trucha arcoiris");
+        }
+    }
+
+    public void añadirPez(int tanque, int pez) {
+        if (this.rio) {
+            if (this.tanques.get(tanque).getPeces().size() < this.tanques.get(tanque).getCapacidad()) {
+                switch (pez) {
+                    case 1:
+                        this.tanques.get(tanque).comprarPez(new Pejerrey(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 2:
+                        this.tanques.get(tanque).comprarPez(new LucioDelNorte(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 3:
+                        this.tanques.get(tanque).comprarPez(new SalmonChinook(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 4:
+                        this.tanques.get(tanque).comprarPez(new PercaEuropea(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 5:
+                        this.tanques.get(tanque).comprarPez(new Carpa(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 6:
+                        this.tanques.get(tanque).comprarPez(new Dorada(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 7:
+                         this.tanques.get(tanque).comprarPez(
+                                new TruchaArcoiris(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                System.out.println("El tanque está lleno y no se puede agregar el pez");
+            }
+        } else {
+            if (this.tanques.get(tanque).getPeces().size() < this.tanques.get(tanque).getCapacidad()) {
+                switch (pez) {
+                    case 1:
+                        this.tanques.get(tanque).comprarPez(new Robalo(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 2:
+                        this.tanques.get(tanque).comprarPez(new Caballa(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 3:
+                        this.tanques.get(tanque).comprarPez(new LenguadoEuropeo(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 4:
+                        this.tanques.get(tanque).comprarPez(new Sargo(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 5:
+                        this.tanques.get(tanque).comprarPez(new Besugo(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 6:
+                        this.tanques.get(tanque).comprarPez(new Dorada(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    case 7:
+                        this.tanques.get(tanque).comprarPez(new TruchaArcoiris(this.tanques.get(tanque).sexoNuevoPez()));
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                System.out.println("El tanque está lleno y no se puede agregar el pez");
+            }
         }
     }
 }

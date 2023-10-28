@@ -4,8 +4,17 @@ public class Monedas {
 
     private int cantidad;
 
-    public Monedas(int cantidad) {
+    private static Monedas instance=null;
+
+    private Monedas(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public static Monedas getInstancia() {
+        if (instance == null) {
+            instance = new Monedas(100);
+        }
+        return instance;
     }
 
     public int getCantidad() {

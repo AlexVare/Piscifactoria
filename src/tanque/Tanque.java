@@ -6,15 +6,21 @@ import java.util.ArrayList;
 import estadisticas.Estadisticas;
 import monedero.Monedas;
 import peces.Pez;
+import stats.Stats;
 
 public class Tanque<T extends Pez> {
 
     ArrayList<Pez> peces = new ArrayList<>();
     int capacidad;
+    
     ArrayList<Integer> muertos;
-
+    
     public Tanque(int capacidad) {
         this.capacidad = capacidad;
+    }
+    
+    public int getCapacidad() {
+        return capacidad;
     }
 
     public ArrayList<Pez> getPeces() {
@@ -104,6 +110,7 @@ public class Tanque<T extends Pez> {
         if (this.peces.size() != 0) {
             for (int i = 0; i < cantidad; i++) {
                 Pez npez = this.peces.get(1).getClass().getDeclaredConstructor().newInstance(this.sexoNuevoPez());
+                Stats.getInstancia().registrarNacimiento(npez.getDatos().getNombre());
                 this.peces.add(npez);
             }
         }
@@ -137,24 +144,23 @@ public class Tanque<T extends Pez> {
         }
     }
 
-    public Monedas comprarPez(Monedas monedero) throws InstantiationException, IllegalAccessException,
+    public void comprarPez() throws InstantiationException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-        Pez npez = this.peces.get(1).getClass().getDeclaredConstructor().newInstance(this.sexoNuevoPez());
-        if (monedero.comprobarPosible(npez.getDatos().getCoste())) {
-            monedero.compra(npez.getDatos().getCoste());
+        Pez npez = this.peces.get(0).getClass().getDeclaredConstructor().newInstance(this.sexoNuevoPez());
+        if (Monedas.getInstancia().comprobarPosible(npez.getDatos().getCoste())) {
+            Monedas.getInstancia().compra(npez.getDatos().getCoste());
             this.peces.add(npez);
-            
+        }else{
+            System.out.println("No tienes monedas suficientes");
         }
-        return monedero;
     }
-
-    public Monedas comprarPez(Monedas monedero, Pez pez) throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-        Pez npez = pez.getClass().getDeclaredConstructor().newInstance(this.sexoNuevoPez());
-        if (monedero.comprobarPosible(npez.getDatos().getCoste())) {
-            monedero.compra(npez.getDatos().getCoste());
-            this.peces.add(npez);
+    
+    public void comprarPez(Pez pez){
+        if (Monedas.getInstancia().comprobarPosible(pez.getDatos().getCoste())) {
+            Monedas.getInstancia().compra(pez.getDatos().getCoste());
+            this.peces.add(pez);
+        }else{
+            System.out.println("No tienes monedas suficientes");
         }
-        return monedero;
     }
 }
