@@ -65,7 +65,7 @@ public class Simulador {
 
                         break;
                     case 8:
-
+                        simulador.añadirPez();
                         break;
                     case 9:
 
@@ -77,7 +77,7 @@ public class Simulador {
 
                         break;
                     case 12:
-
+                        simulador.upgrade();
                         break;
                     case 13:
 
@@ -139,7 +139,7 @@ public class Simulador {
         System.out.println("10. Limpiar tanques");
         System.out.println("11. Vaciar tanques");
         System.out.println("12. Mejorar");
-        System.out.println("13. Pasar varios dias");
+        System.out.println("13. Pasar varios días");
         System.out.println("14. Salir");
     }
 
@@ -153,11 +153,25 @@ public class Simulador {
         }
     }
 
-    public void añadirPez(int piscifactoria, int tanque) {
+    public void añadirPez() {
+        int pisc = 0;
+        do {
+            this.selecPisc();
+            try {
+                pisc = Integer.parseInt(sc.nextLine());
+                if (pisc < 1 || pisc > this.piscifactorias.size()){
+                    System.out.println("Índice incorrecto, inserta un valor de los indicados");
+                }else{
+                    this.piscifactorias.get(pisc-1).nuevoPez();
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Argumento inválido, retrocediendo al menú principal");
+            }
 
+        } while (pisc < 1 || pisc > this.piscifactorias.size());
     }
 
-    public void menuMejoras() {
+    public void upgrade() {
         int opcion = 0;
         System.out.println("******Mejoras******");
         System.out.println("1. Comprar edificios");
@@ -171,22 +185,22 @@ public class Simulador {
         switch (opcion) {
             case 1:
                 System.out.println("******Comprar edificios******");
-                System.out.println("1. Piscifactoria");
+                System.out.println("1. Piscifactoría");
                 if (almacenCentral == null) {
                     System.out.println("2. Almacén central");
                 }
                 opcion = Integer.parseInt(sc.nextLine());
                 switch (opcion) {
                     case 1:
-                        this.monedas = nuevaPisc(tipoPisc(), monedas);
+                        boolean tipo = tipoPisc();
+                        this.monedas = nuevaPisc(tipo, monedas);
                         break;
                     case 2:
                         if (almacenCentral == null) {
                             this.monedas = comprarAlmacen(monedas);
                         } else {
-                            System.out.println();
+                            System.out.println("Opción no válida, retrocediendo al menú principal");
                         }
-
                         break;
                     default:
                         System.out.println("Opción no válida, retrocediendo al menú principal");
@@ -195,9 +209,54 @@ public class Simulador {
                 break;
             case 2:
                 System.out.println("******Mejorar edificios******");
-                System.out.println("1. Piscifactoria");
+                System.out.println("1. Piscifactoría");
                 if (almacenCentral != null) {
                     System.out.println("2. Almacen central");
+                }
+                opcion = Integer.parseInt(sc.nextLine());
+                switch (opcion) {
+                    case 1:
+                        int pisc = 0;
+                        do {
+                            this.selecPisc();
+                            try {
+                                pisc = Integer.parseInt(sc.nextLine());
+                                if (pisc < 1 || pisc > this.piscifactorias.size()) {
+                                    System.out.println("Índice incorrecto, inserta un valor de los indicados");
+                                } else {
+                                    do {
+                                        System.out.println("******Mejorar piscifactoría******");
+                                        System.out.println("1. Comprar tanque");
+                                        System.out.println("2. Aumentar almacén");
+                                        opcion = Integer.parseInt(sc.nextLine());
+                                        switch (opcion) {
+                                            case 1:
+                                                this.piscifactorias.get(pisc - 1).comprarTanque(monedas);
+                                                break;
+                                            case 2:
+                                                this.piscifactorias.get(pisc - 1).upgradeFood(monedas);
+                                                break;
+                                            default:
+                                                System.out.println("Opción no válida, inserta un valor de los indicados");
+                                                break;
+                                        }
+                                    } while (opcion != 1 || opcion != 2);
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Opción no válida, inserta un valor de los indicados");
+                            }
+                        } while (pisc < 1 || pisc > this.piscifactorias.size());
+                        break;
+                    case 2:
+                        if (almacenCentral != null) {
+                            this.monedas = this.almacenCentral.upgrade(monedas);
+                        } else {
+                            System.out.println("Opción no válida, retrocediendo al menú principal");
+                        }
+                        break;
+                    default:
+                        System.out.println("Opción no válida, retrocediendo al menú principal");
+                        break;
                 }
                 break;
             case 3:
@@ -212,18 +271,22 @@ public class Simulador {
         int salida = 0;
         boolean cosa = true;
         do {
-            System.out.println("Selecciona el tipo de piscifactoria");
+            System.out.println("Selecciona el tipo de piscifactoría");
             System.out.println("1.Río");
             System.out.println("2.Mar");
-            salida = Integer.parseInt(sc.nextLine());
+            try {
+                salida = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Argumento inválido");
+            }
             if (salida == 1) {
                 cosa = true;
             } else if (salida == 2) {
                 cosa = false;
             } else {
-                System.out.println("Opción no valida, vuelve a introducir tu elección");
+                System.out.println("Opción no válida, vuelve a introducir tu elección");
             }
-        } while (salida != 1 && salida != 2);
+        } while (salida < 1 || salida > 2);
         return cosa;
     }
 
@@ -251,23 +314,35 @@ public class Simulador {
         if (rio) {
             if (monedero.comprobarPosible(this.rio() * 500)) {
                 monedero.compra(this.rio() * 500);
-                this.piscifactorias.add(new Piscifactoria(rio, nombrePisc()));
+                String nompreP = nombrePisc();
+                this.piscifactorias.add(new Piscifactoria(rio, nompreP));
             } else {
                 System.out.println("No tienes suficientes monedas");
             }
         } else {
-            if (monedero.comprobarPosible(this.mar() * 500)) {
-                monedero.compra(this.mar() * 500);
-                this.piscifactorias.add(new Piscifactoria(rio, nombrePisc()));
+            if (this.mar() == 0) {
+                if (monedero.comprobarPosible(1 * 500)) {
+                    monedero.compra(this.mar() * 500);
+                    String nompreP = nombrePisc();
+                    this.piscifactorias.add(new Piscifactoria(rio, nompreP));
+                } else {
+                    System.out.println("No tienes suficientes monedas");
+                }
             } else {
-                System.out.println("No tienes suficientes monedas");
+                if (monedero.comprobarPosible(this.mar() * 500)) {
+                    monedero.compra(this.mar() * 500);
+                    String nompreP = nombrePisc();
+                    this.piscifactorias.add(new Piscifactoria(rio, nompreP));
+                } else {
+                    System.out.println("No tienes suficientes monedas");
+                }
             }
         }
         return monedero;
     }
 
     public String nombrePisc() {
-        System.out.println("Introduce el nombre de la piscifactoria");
+        System.out.println("Introduce el nombre de la piscifactoría");
         return sc.nextLine();
     }
 

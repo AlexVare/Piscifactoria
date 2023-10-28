@@ -7,7 +7,6 @@ import peces.Pez;
 public class Tanque<T extends Pez> {
 
     ArrayList<Pez> peces = new ArrayList<>();
-    
     int capacidad;
     ArrayList<Integer> muertos;
     
