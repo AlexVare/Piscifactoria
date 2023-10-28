@@ -21,6 +21,6 @@ public abstract class Omnivoro extends Pez {
         if (!this.noComer()){
             return super.grow(comida, comido);
         }
-        return super.grow(comida, true);
+        return super.grow(comida, false);
     }
 }

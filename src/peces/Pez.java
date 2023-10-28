@@ -46,10 +46,10 @@ public abstract class Pez {
         this.vivo = vivo;
     }
 
-    public boolean isSexo(){
+    public boolean isSexo() {
         return sexo;
     }
-    
+
     public String getSexo() {
         if (this.sexo) {
             return "Macho";
@@ -95,6 +95,7 @@ public abstract class Pez {
         if (comido) {
             if (this.vivo == true) {
                 this.edad++;
+                this.alimentado = true;
                 this.comprobarMadurez();
             }
             return 0;
@@ -108,6 +109,7 @@ public abstract class Pez {
                 this.edad++;
                 this.comprobarMadurez();
                 if (com != 3) {
+                    this.alimentado = true;
                     return com;
                 }
             }

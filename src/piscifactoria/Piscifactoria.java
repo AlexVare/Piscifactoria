@@ -112,7 +112,7 @@ public class Piscifactoria {
 
     }
 
-    public void nuevoPez() {
+    public Monedas nuevoPez(Monedas monedero) {
         Scanner sc = new Scanner(System.in);
         int opcion;
         try {
@@ -120,12 +120,23 @@ public class Piscifactoria {
                 this.listTanks();
                 opcion = Integer.parseInt(sc.nextLine());
                 if (opcion < 1 || opcion > this.tanques.size()) {
-                    
+                    System.out.println("Opción no válida, introduce uno de los valores mostrados");
+                } else {
+                    if (this.tanques.get(opcion).getPeces().size() != 0) {
+                        try {
+                            monedero = this.tanques.get(opcion).comprarPez(monedero);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }else{
+                        this.opcionPez();
+                    }
                 }
             } while (opcion < 1 || opcion > this.tanques.size());
         } catch (NumberFormatException e) {
             System.out.println("Opción no válida");
         }
+        return monedero;
     }
 
     public void listTanks() {
@@ -135,6 +146,28 @@ public class Piscifactoria {
             } else {
                 System.out.println((i + 1) + ". Pez:" + this.tanques.get(i).getPeces().get(0).getDatos().getNombre());
             }
+        }
+    }
+
+    public void opcionPez(){
+        if(this.rio){
+            System.out.println("******Peces******");
+            System.out.println("1.Pejerrey");
+            System.out.println("2.Lucio del norte");
+            System.out.println("3.Salmón chinook");
+            System.out.println("4.Perca europea");
+            System.out.println("5.Carpa");
+            System.out.println("6.Dorada");
+            System.out.println("7.Trucha arcoiris");
+        }else{
+            System.out.println("******Peces******");
+            System.out.println("1.Róbalo");
+            System.out.println("2.Caballa");
+            System.out.println("3.Lenguado europeo");
+            System.out.println("4.Sargo");
+            System.out.println("5.Besugo");
+            System.out.println("6.Dorada");
+            System.out.println("7.Trucha arcoiris");
         }
     }
 }

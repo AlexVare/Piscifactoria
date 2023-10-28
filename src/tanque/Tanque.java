@@ -2,6 +2,9 @@ package tanque;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+
+import estadisticas.Estadisticas;
+import monedero.Monedas;
 import peces.Pez;
 
 public class Tanque<T extends Pez> {
@@ -9,11 +12,11 @@ public class Tanque<T extends Pez> {
     ArrayList<Pez> peces = new ArrayList<>();
     int capacidad;
     ArrayList<Integer> muertos;
-    
+
     public Tanque(int capacidad) {
         this.capacidad = capacidad;
     }
-    
+
     public ArrayList<Pez> getPeces() {
         return peces;
     }
@@ -132,5 +135,26 @@ public class Tanque<T extends Pez> {
         } else {
             return true;
         }
+    }
+
+    public Monedas comprarPez(Monedas monedero) throws InstantiationException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+        Pez npez = this.peces.get(1).getClass().getDeclaredConstructor().newInstance(this.sexoNuevoPez());
+        if (monedero.comprobarPosible(npez.getDatos().getCoste())) {
+            monedero.compra(npez.getDatos().getCoste());
+            this.peces.add(npez);
+            
+        }
+        return monedero;
+    }
+
+    public Monedas comprarPez(Monedas monedero, Pez pez) throws InstantiationException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+        Pez npez = pez.getClass().getDeclaredConstructor().newInstance(this.sexoNuevoPez());
+        if (monedero.comprobarPosible(npez.getDatos().getCoste())) {
+            monedero.compra(npez.getDatos().getCoste());
+            this.peces.add(npez);
+        }
+        return monedero;
     }
 }

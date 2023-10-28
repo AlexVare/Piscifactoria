@@ -8,16 +8,24 @@ import estadisticas.Estadisticas;
 import monedero.Monedas;
 import peces.Pez;
 import piscifactoria.Piscifactoria;
+import propiedades.AlmacenPropiedades;
 import tanque.Tanque;
 
 public class Simulador {
 
+    private final String[] peces = { AlmacenPropiedades.BESUGO.getNombre(), AlmacenPropiedades.PEJERREY.getNombre(),
+            AlmacenPropiedades.CARPA.getNombre(), AlmacenPropiedades.SALMON_CHINOOK.getNombre(),
+            AlmacenPropiedades.LUCIO_NORTE.getNombre(), AlmacenPropiedades.PERCA_EUROPEA.getNombre(),
+            AlmacenPropiedades.ROBALO.getNombre(), AlmacenPropiedades.CABALLA.getNombre(),
+            AlmacenPropiedades.LENGUADO_EUROPEO.getNombre(), AlmacenPropiedades.SARGO.getNombre(),
+            AlmacenPropiedades.DORADA.getNombre(), AlmacenPropiedades.TRUCHA_ARCOIRIS.getNombre() };
     private int dias = 0;
     private String nombreCompa = "";
     private ArrayList<Piscifactoria> piscifactorias = new ArrayList<Piscifactoria>();
     private Monedas monedas = new Monedas(0);
     private AlmacenCentral almacenCentral = null;
     private static Scanner sc = new Scanner(System.in);
+    private Estadisticas stats = new Estadisticas(peces);
 
     public Simulador() {
 
@@ -44,7 +52,7 @@ public class Simulador {
                 }
                 switch (salida) {
                     case 1:
-
+                        
                         break;
                     case 2:
 
@@ -159,10 +167,10 @@ public class Simulador {
             this.selecPisc();
             try {
                 pisc = Integer.parseInt(sc.nextLine());
-                if (pisc < 1 || pisc > this.piscifactorias.size()){
+                if (pisc < 1 || pisc > this.piscifactorias.size()) {
                     System.out.println("Índice incorrecto, inserta un valor de los indicados");
-                }else{
-                    this.piscifactorias.get(pisc-1).nuevoPez();
+                } else {
+                    this.piscifactorias.get(pisc - 1).nuevoPez(this.monedas);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Argumento inválido, retrocediendo al menú principal");
@@ -237,7 +245,8 @@ public class Simulador {
                                                 this.piscifactorias.get(pisc - 1).upgradeFood(monedas);
                                                 break;
                                             default:
-                                                System.out.println("Opción no válida, inserta un valor de los indicados");
+                                                System.out
+                                                        .println("Opción no válida, inserta un valor de los indicados");
                                                 break;
                                         }
                                     } while (opcion != 1 || opcion != 2);
