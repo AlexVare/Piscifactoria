@@ -4,10 +4,6 @@ import java.util.Random;
 
 public abstract class Omnivoro extends Pez {
 
-    public Omnivoro(boolean sexo) {
-        super(sexo);
-    }
-
     private boolean noComer(){
         Random r = new Random();
         if (r.nextInt(1, 4) == 1){

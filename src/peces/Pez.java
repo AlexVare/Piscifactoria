@@ -14,8 +14,8 @@ public abstract class Pez {
     protected PecesDatos datos;
     protected boolean alimentado = true;
 
-    public Pez(boolean sexo) {
-        this.sexo = sexo;
+    public boolean isAlimentado() {
+        return alimentado;
     }
 
     public PecesDatos getDatos() {
@@ -59,28 +59,6 @@ public abstract class Pez {
     }
 
     public void showStatus() {
-        System.out.println("----------" + this.datos.getNombre() + "----------");
-        System.out.println("Edad: " + this.edad + "días");
-        if (this.sexo) {
-            System.out.println("Sexo: H");
-        } else {
-            System.out.println("Sexo: M");
-        }
-        if (this.vivo) {
-            System.out.println("Vivo: Si");
-        } else {
-            System.out.println("Vivo: No");
-        }
-        if (this.maduro) {
-            System.out.println("Adulto: Si");
-        } else {
-            System.out.println("Adulto: No");
-        }
-        if (this.ciclo == 0) {
-            System.out.println("Fértil: Si");
-        } else {
-            System.out.println("Fértil: No");
-        }
     }
 
     public int comer(int comida) {
@@ -134,9 +112,14 @@ public abstract class Pez {
     }
 
     public boolean reproduccion() {
-        if (this.maduro && this.edad % this.datos.getCiclo() == 0 && !this.sexo) {
-            this.ciclo = this.datos.getCiclo();
-            return true;
+        if (this.maduro && this.edad % this.datos.getCiclo() == 0) {
+            if (!this.sexo) {
+                this.ciclo = this.datos.getCiclo();
+                return true;
+            } else {
+                return false;
+            }
+
         } else {
             this.ciclo--;
             return false;
@@ -152,13 +135,12 @@ public abstract class Pez {
         }
     }
 
-    public boolean isOptimo(){
-            if(this.edad==this.datos.getOptimo()){
-                return true;
-            }else{
-                return false;
-            }
+    public boolean isOptimo() {
+        if (this.edad == this.datos.getOptimo()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    
 }

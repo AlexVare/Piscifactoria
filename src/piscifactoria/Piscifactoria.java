@@ -1,7 +1,7 @@
 package piscifactoria;
 
+import java.io.Console;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import monedero.Monedas;
 import peces.Besugo;
@@ -24,7 +24,6 @@ public class Piscifactoria {
     private final boolean rio;
     private String nombre = "";
     private ArrayList<Tanque<Pez>> tanques = new ArrayList<>();
-
     private int almacen;
     private int almacenMax;
 
@@ -62,19 +61,21 @@ public class Piscifactoria {
                 this.tanques.get(i).nuevoDiaReproduccion();
             }
             this.tanques.get(i).venderOptimos();
-            System.out.println("Piscifactoria "+this.nombre+": "+ this.tanques.get(i).getVendidos() + " peces vendidos por " + this.tanques.get(i).getGanancias()+ " monedas");
+            System.out.println("Piscifactoria " + this.nombre + ": " + this.tanques.get(i).getVendidos()
+                    + " peces vendidos por " + this.tanques.get(i).getGanancias() + " monedas");
         }
         this.gananciaDiaria();
     }
 
-    public void gananciaDiaria(){
-        int cantidad=0;
-        int ganancia=0;
+    public void gananciaDiaria() {
+        int cantidad = 0;
+        int ganancia = 0;
         for (Tanque<Pez> tanque : tanques) {
-            cantidad+=tanque.getVendidos();
-            ganancia+=tanque.getGanancias();
+            cantidad += tanque.getVendidos();
+            ganancia += tanque.getGanancias();
         }
-        System.out.println("Piscifactoria "+this.nombre+": "+ cantidad + " peces vendidos por " + ganancia + " monedas totales");
+        System.out.println("Piscifactoria " + this.nombre + ": " + cantidad + " peces vendidos por " + ganancia
+                + " monedas totales");
     }
 
     public void upgradeFood() {
@@ -130,23 +131,32 @@ public class Piscifactoria {
     }
 
     public void showStatus() {
-
+        System.out.println("=========="+this.nombre+"==========");
+        System.out.println("Tanques: "+this.tanques.size());
+        System.out.println("Ocupacion: "+this.pecesTotales()+"/"+this.capacidadTotal()+ " ("+ this.porcentaje(this.pecesTotales(),this.capacidadTotal()) + "%)");
+        System.out.println("Peces vivos: "+this.vivosTotales()+"/"+this.pecesTotales()+ " ("+ this.porcentaje(this.vivosTotales(),this.pecesTotales()) + "%)");
+        System.out.println("Peces alimentados: "+this.alimentadosTotales()+"/"+this.vivosTotales()+ " ("+ this.porcentaje(this.alimentadosTotales(),this.vivosTotales()) + "%)");
+        System.out.println("Peces adultos: "+this.adultosTotales()+"/"+this.vivosTotales()+ " ("+ this.porcentaje(this.adultosTotales(),this.vivosTotales()) + "%)");
+        System.out.println("Hembras/Machos: "+this.hembrasTotales()+"/"+this.machosTotales());
+        System.out.println("Almacen de comida actual: "+this.almacen+"/"+this.almacenMax+  " ("+ this.porcentaje(this.almacen,this.almacenMax) + "%)");
     }
 
     public void nuevoPez() {
-        Scanner sc = new Scanner(System.in);
-        int opcion=0;
+        Console c = System.console();
+        int opcion = 0;
         int pez = 0;
+        boolean salida=false;
         try {
             do {
                 this.listTanks();
-                opcion = Integer.parseInt(sc.nextLine());
+                opcion = Integer.parseInt(c.readLine());
                 if (opcion < 0 || opcion > this.tanques.size()) {
                     System.out.println("Opción no válida, introduce uno de los valores mostrados");
                 } else {
                     if (this.tanques.get(opcion).getPeces().size() != 0) {
                         try {
-                             this.tanques.get(opcion).comprarPez();
+                            this.tanques.get(opcion).comprarPez();
+                            salida=true;
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
@@ -154,10 +164,11 @@ public class Piscifactoria {
                         do {
                             this.opcionPez();
                             try {
-                                pez = Integer.parseInt(sc.nextLine());
+                                pez = Integer.parseInt(c.readLine());
                                 System.out.println(pez);
-                                if (pez > 1 && pez < 7) {
+                                if (pez > 0 && pez < 8) {
                                     this.añadirPez(opcion, pez);
+                                    salida=true;
                                 } else {
                                     System.out.println("Opción no válida, introduce una de las opciones mostradas");
                                 }
@@ -167,7 +178,7 @@ public class Piscifactoria {
                         } while (pez < 1 || pez > 7);
                     }
                 }
-            } while (opcion < 1 || opcion > this.tanques.size());
+            } while (!salida);
         } catch (NumberFormatException e) {
             System.out.println("Opción no válida");
         }
@@ -178,10 +189,7 @@ public class Piscifactoria {
             if (this.tanques.get(i).getPeces().size() == 0) {
                 System.out.println(i + ". Tanque vacío");
             } else {
-                if (!(this.tanques.get(i).getPeces().size() == this.tanques.get(i).getCapacidad())) {
-                    System.out
-                            .println((i + 1) + ". Pez:" + this.tanques.get(i).getPeces().get(0).getDatos().getNombre());
-                }
+                System.out.println(i + ". Pez:" + this.tanques.get(i).getPeces().get(0).getDatos().getNombre());
             }
         }
     }
@@ -231,7 +239,7 @@ public class Piscifactoria {
                         this.tanques.get(tanque).comprarPez(new Dorada(this.tanques.get(tanque).sexoNuevoPez()));
                         break;
                     case 7:
-                         this.tanques.get(tanque).comprarPez(
+                        this.tanques.get(tanque).comprarPez(
                                 new TruchaArcoiris(this.tanques.get(tanque).sexoNuevoPez()));
                         break;
                     default:
@@ -250,7 +258,8 @@ public class Piscifactoria {
                         this.tanques.get(tanque).comprarPez(new Caballa(this.tanques.get(tanque).sexoNuevoPez()));
                         break;
                     case 3:
-                        this.tanques.get(tanque).comprarPez(new LenguadoEuropeo(this.tanques.get(tanque).sexoNuevoPez()));
+                        this.tanques.get(tanque)
+                                .comprarPez(new LenguadoEuropeo(this.tanques.get(tanque).sexoNuevoPez()));
                         break;
                     case 4:
                         this.tanques.get(tanque).comprarPez(new Sargo(this.tanques.get(tanque).sexoNuevoPez()));
@@ -262,7 +271,8 @@ public class Piscifactoria {
                         this.tanques.get(tanque).comprarPez(new Dorada(this.tanques.get(tanque).sexoNuevoPez()));
                         break;
                     case 7:
-                        this.tanques.get(tanque).comprarPez(new TruchaArcoiris(this.tanques.get(tanque).sexoNuevoPez()));
+                        this.tanques.get(tanque)
+                                .comprarPez(new TruchaArcoiris(this.tanques.get(tanque).sexoNuevoPez()));
                         break;
                     default:
                         break;
@@ -271,5 +281,78 @@ public class Piscifactoria {
                 System.out.println("El tanque está lleno y no se puede agregar el pez");
             }
         }
+    }
+
+    public int vivosTotales(){
+        int cantidad=0;
+
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad+=tanque.vivos();
+        }
+        return cantidad;
+    }
+    
+    public int alimentadosTotales(){
+        int cantidad=0;
+
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad+=tanque.alimentados();
+        }
+        return cantidad;
+    }
+    
+    public int adultosTotales(){
+        int cantidad=0;
+
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad+=tanque.adultos();
+        }
+        return cantidad;
+    }
+    
+    public int machosTotales(){
+        int cantidad=0;
+
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad+=tanque.machos();
+        }
+        return cantidad;
+    }
+    
+    public int hembrasTotales(){
+        int cantidad=0;
+
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad+=tanque.hembras();
+        }
+        return cantidad;
+    }
+
+    public int pecesTotales(){
+        int cantidad=0;
+
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad+=tanque.getPeces().size();
+        }
+        return cantidad;
+    }
+
+    public int capacidadTotal(){
+        int cantidad=0;
+        
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad+=tanque.getCapacidad();
+        }
+        return cantidad;
+    }
+
+    public double porcentaje(int numero1, int numero2){
+        if (numero2 == 0) {
+            return 0.0;
+        }
+        
+        double porcentaje = (double) numero1 / numero2 * 100;
+        porcentaje = Math.round(porcentaje * 10) / 10.0;
+        return porcentaje;
     }
 }

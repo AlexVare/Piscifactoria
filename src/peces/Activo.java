@@ -4,10 +4,6 @@ import java.util.Random;
 
 public abstract class Activo extends Pez {
 
-    public Activo(boolean sexo) {
-        super(sexo);
-    }
-
     @Override
     public int comer(int comida) {
         Random comer = new Random();
