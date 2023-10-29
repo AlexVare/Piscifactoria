@@ -20,7 +20,6 @@ import peces.TruchaArcoiris;
 import piscifactoria.Piscifactoria;
 import propiedades.AlmacenPropiedades;
 import stats.Stats;
-import tanque.Tanque;
 
 public class Simulador {
 
