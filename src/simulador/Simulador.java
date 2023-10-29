@@ -24,21 +24,7 @@ import tanque.Tanque;
 
 public class Simulador {
 
-    private final String[] peces = { AlmacenPropiedades.BESUGO.getNombre(), AlmacenPropiedades.PEJERREY.getNombre(),
-            AlmacenPropiedades.CARPA.getNombre(), AlmacenPropiedades.SALMON_CHINOOK.getNombre(),
-            AlmacenPropiedades.LUCIO_NORTE.getNombre(), AlmacenPropiedades.PERCA_EUROPEA.getNombre(),
-            AlmacenPropiedades.ROBALO.getNombre(), AlmacenPropiedades.CABALLA.getNombre(),
-            AlmacenPropiedades.LENGUADO_EUROPEO.getNombre(), AlmacenPropiedades.SARGO.getNombre(),
-            AlmacenPropiedades.DORADA.getNombre(), AlmacenPropiedades.TRUCHA_ARCOIRIS.getNombre() };
-    private int dias = 0;
-    private String nombreCompa = "";
-    private ArrayList<Piscifactoria> piscifactorias = new ArrayList<Piscifactoria>();
-    private boolean almacenCentral = false;
     private static Scanner sc = new Scanner(System.in);
-
-    public Simulador() {
-
-    }
 
     public static void main(String[] args) {
         Simulador simulador = new Simulador();
@@ -62,7 +48,7 @@ public class Simulador {
                 }
                 switch (salida) {
                     case 1:
-                        simulador.menuPisc(salida);
+                        simulador.showGeneralStatus();
                         break;
                     case 2:
                         simulador.menuPisc(salida);
@@ -77,7 +63,7 @@ public class Simulador {
                         simulador.showIctio();
                         break;
                     case 6:
-                        simulador.nuevoDia();
+                        simulador.nuevoDia(1);
                         break;
                     case 7:
 
@@ -86,19 +72,26 @@ public class Simulador {
                         simulador.añadirPez();
                         break;
                     case 9:
-
+                        simulador.venderPeces();
                         break;
                     case 10:
-
+                        simulador.limpiarTanques();
                         break;
                     case 11:
-
+                        simulador.vaciarTanques();
                         break;
                     case 12:
                         simulador.upgrade();
                         break;
                     case 13:
-
+                        int pasar = 1;
+                        System.out.println("Cuantos días quieres avanzar?");
+                        try {
+                            pasar = Integer.parseInt(sc.nextLine());
+                            simulador.nuevoDia(pasar);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Eso no es un número entero");
+                        }
                         break;
                     case 98:
 
@@ -118,6 +111,21 @@ public class Simulador {
         }
     }
 
+    private final String[] peces = { AlmacenPropiedades.BESUGO.getNombre(), AlmacenPropiedades.PEJERREY.getNombre(),
+            AlmacenPropiedades.CARPA.getNombre(), AlmacenPropiedades.SALMON_CHINOOK.getNombre(),
+            AlmacenPropiedades.LUCIO_NORTE.getNombre(), AlmacenPropiedades.PERCA_EUROPEA.getNombre(),
+            AlmacenPropiedades.ROBALO.getNombre(), AlmacenPropiedades.CABALLA.getNombre(),
+            AlmacenPropiedades.LENGUADO_EUROPEO.getNombre(), AlmacenPropiedades.SARGO.getNombre(),
+            AlmacenPropiedades.DORADA.getNombre(), AlmacenPropiedades.TRUCHA_ARCOIRIS.getNombre() };
+    private int dias = 0;
+    private String nombreCompa = "";
+    private ArrayList<Piscifactoria> piscifactorias = new ArrayList<Piscifactoria>();
+
+    private boolean almacenCentral = false;
+
+    public Simulador() {
+    }
+
     public int getDias() {
         return dias;
     }
@@ -134,6 +142,10 @@ public class Simulador {
         this.nombreCompa = nombreCompa;
     }
 
+    /**
+     * Inicializa el simulador configurando el nombre de la compañía, creando una
+     * piscifactoría inicial y otros elementos del juego.
+     */
     public void init() {
         System.out.println("Introduce el nombre de la compañía: ");
         String nombre = sc.nextLine();
@@ -144,6 +156,9 @@ public class Simulador {
         this.piscifactorias.add(new Piscifactoria(true, nombreP));
     }
 
+    /**
+     * Muestra el menú principal del juego.
+     */
     public void menu() {
         System.out.println("******Menú******");
         System.out.println("1. Estado general");
@@ -162,6 +177,13 @@ public class Simulador {
         System.out.println("14. Salir");
     }
 
+    /**
+     * Muestra el menú de selección de piscifactorías y permite al usuario
+     * seleccionar una opción.
+     *
+     * @param salida El número que representa la salida a la que el usuario desea
+     *               volver.
+     */
     public void menuPisc(int salida) {
         int contador = 1;
         System.out.println("Seleccione una opción:");
@@ -171,44 +193,86 @@ public class Simulador {
             System.out.println(contador + ".-" + pisc.getNombre() + " [" + pisc.vivosTotales() + "/"
                     + pisc.pecesTotales() + "/" + pisc.capacidadTotal() + "]");
         }
-        if (salida != 1) {
-            try {
-                int indice = Integer.parseInt(sc.nextLine());
-                if (indice == 0) {
+        try {
+            int indice = Integer.parseInt(sc.nextLine());
+            if (indice == 0) {
 
-                } else if (indice < 1 || indice > this.piscifactorias.size()) {
-                    System.out.println("Opoción inválida, retornando al menú principal");
-                } else {
-                    if (salida == 2) {
-                        this.piscifactorias.get(indice-1).showStatus();
-                    } else if (salida == 3) {
-                        this.piscifactorias.get(indice-1).listTanks();
-                        int tanque = Integer.parseInt(sc.nextLine());
-                        if (tanque < 0 || tanque > this.piscifactorias.get(indice-1).getTanques().size()) {
-                            System.out.println("Opción no válida, retornando al menú principal");
-                        } else {
-                            System.out.println("=============== Tanque " + tanque + "===============");
-                            this.piscifactorias.get(indice-1).getTanques().get(tanque).showStatus();
-                            this.piscifactorias.get(indice-1).getTanques().get(tanque).showFishStatus();
-                        }
+            } else if (indice < 1 || indice > this.piscifactorias.size()) {
+                System.out.println("Opoción inválida, retornando al menú principal");
+            } else {
+                if (salida == 2) {
+                    this.piscifactorias.get(indice - 1).showStatus();
+                } else if (salida == 3) {
+                    this.piscifactorias.get(indice - 1).listTanks();
+                    int tanque = Integer.parseInt(sc.nextLine());
+                    if (tanque < 0 || tanque > this.piscifactorias.get(indice - 1).getTanques().size()) {
+                        System.out.println("Opción no válida, retornando al menú principal");
+                    } else {
+                        System.out.println("=============== Tanque " + tanque + "===============");
+                        this.piscifactorias.get(indice - 1).getTanques().get(tanque).showStatus();
+                        this.piscifactorias.get(indice - 1).getTanques().get(tanque).showFishStatus();
                     }
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Opción no válida");
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Opción no válida");
+
         }
     }
 
+    /**
+     * Muestra el estado general de las piscifactorías, los días transcurridos y las
+     * monedas disponibles. De haber un Almacén central, muestra su estado también.
+     */
+    public void showGeneralStatus() {
+        for (Piscifactoria pisc : piscifactorias) {
+            pisc.showStatus();
+        }
+        System.out.println("Dia: " + this.dias);
+        System.out.println(Monedas.getInstancia().getCantidad() + " monedas disponibles");
+        if (almacenCentral == true) {
+            System.out.println("Almacen central: " + AlmacenCentral.getInstance().getCapacidad() + "/"
+                    + AlmacenCentral.getInstance().getCapacidadMax() + " ("
+                    + this.piscifactorias.get(0).porcentaje(AlmacenCentral.getInstance().getCapacidad(),
+                            AlmacenCentral.getInstance().getCapacidadMax())
+                    + "%)");
+        }
+    }
 
+    /**
+     * Muestra las opciones de selección de piscifactorías disponibles.
+     */
     public void selecPisc() {
         for (int i = 0; i < this.piscifactorias.size(); i++) {
             System.out.println((i + 1) + ". " + this.piscifactorias.get(i).getNombre());
         }
     }
 
+    /**
+     * Limpia los peces muertos de todas las piscifactorías.
+     */
+    public void limpiarTanques() {
+        for (Piscifactoria pisc : piscifactorias) {
+            pisc.limpiarTanques();
+        }
+    }
+
+    /**
+     * Vacia los tanques de todas las piscifactorías.
+     */
+    public void vaciarTanques() {
+        for (Piscifactoria pisc : piscifactorias) {
+            pisc.vaciarTanques();
+        }
+    }
+
+    /**
+     * Permite al usuario seleccionar una piscifactoría y añadir un pez a un tanque
+     * en esa piscifactoría.
+     */
     public void añadirPez() {
         int pisc = 0;
-        boolean salida=false;
+        boolean salida = false;
         do {
             this.selecPisc();
             try {
@@ -216,21 +280,34 @@ public class Simulador {
                 if (pisc < 0 || pisc > this.piscifactorias.size()) {
                     System.out.println("Índice incorrecto, inserta un valor de los indicados");
                 } else {
-                    this.piscifactorias.get(pisc-1).nuevoPez();
-                    salida=true;
+                    this.piscifactorias.get(pisc - 1).nuevoPez();
+                    salida = true;
                 }
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 System.out.println("Argumento inválido, retrocediendo al menú principal");
-                salida=true;
+                salida = true;
             }
         } while (!salida);
     }
-    public void nuevoDia(){
-        for (Piscifactoria pisc : piscifactorias) {
-            pisc.nuevoDia();
+
+    /**
+     * Permite al usuario avanzar un número específico de días en la simulación.
+     *
+     * @param dias La cantidad de días que se avanzarán en la simulación.
+     */
+    public void nuevoDia(int dias) {
+        for (int i = 0; i < dias; i++) {
+            for (Piscifactoria pisc : piscifactorias) {
+                pisc.nuevoDia();
+            }
+            this.dias++;
         }
-        this.dias++;
     }
+
+    /**
+     * Muestra el menú de actualización de edificios, permitiendo al usuario comprar
+     * o mejorar edificios, o cancelar la operación.
+     */
     public void upgrade() {
         int opcion = 0;
         System.out.println("******Mejoras******");
@@ -332,6 +409,12 @@ public class Simulador {
         }
     }
 
+    /**
+     * Permite al usuario seleccionar el tipo de piscifactoría (río o mar) y
+     * devuelve un valor booleano correspondiente.
+     *
+     * @return true si se selecciona río, false si se selecciona mar.
+     */
     public boolean tipoPisc() {
         int salida = 0;
         boolean cosa = true;
@@ -355,6 +438,11 @@ public class Simulador {
         return cosa;
     }
 
+    /**
+     * Calcula el número de piscifactorías de tipo "mar".
+     *
+     * @return Número de piscifactorías de tipo "mar".
+     */
     public int mar() {
         int numero = 0;
         for (Piscifactoria piscifactoria : piscifactorias) {
@@ -365,6 +453,11 @@ public class Simulador {
         return numero;
     }
 
+    /**
+     * Calcula el número de piscifactorías de tipo "río".
+     *
+     * @return Número de piscifactorías de tipo "río".
+     */
     public int rio() {
         int numero = 0;
         for (Piscifactoria piscifactoria : piscifactorias) {
@@ -375,6 +468,13 @@ public class Simulador {
         return numero;
     }
 
+    /**
+     * Crea una nueva piscifactoría, ya sea de tipo río o mar, dependiendo del valor
+     * de la variable "rio".
+     * Si no hay piscifactorías de tipo mar, se asume un costo de 500 monedas.
+     *
+     * @param rio true si la piscifactoría es de tipo río, false si es de tipo mar.
+     */
     public void nuevaPisc(boolean rio) {
         if (rio) {
             if (Monedas.getInstancia().comprobarPosible(this.rio() * 500)) {
@@ -405,11 +505,23 @@ public class Simulador {
         }
     }
 
+    /**
+     * Solicita al usuario introducir el nombre de una piscifactoría y devuelve la
+     * entrada del usuario como una cadena de texto.
+     *
+     * @return El nombre de la piscifactoría ingresado por el usuario.
+     */
     public String nombrePisc() {
         System.out.println("Introduce el nombre de la piscifactoría");
         return sc.nextLine();
     }
 
+    /**
+     * Permite al usuario comprar un almacén central si aún no ha sido adquirido.
+     * Comprueba si hay suficientes monedas y realiza la compra si es posible.
+     * Si la compra se realiza con éxito, se activa el almacén central y se
+     * establece el indicador "almacenCentral" en true.
+     */
     public void comprarAlmacen() {
         if (Monedas.getInstancia().comprobarPosible(2000)) {
             Monedas.getInstancia().compra(2000);
@@ -420,6 +532,10 @@ public class Simulador {
         }
     }
 
+    /**
+     * Muestra información detallada sobre las especies de peces disponibles,
+     * permitiendo al usuario seleccionar una para obtener más detalles.
+     */
     public void showIctio() {
         int opcion = 0;
         do {
@@ -476,5 +592,16 @@ public class Simulador {
                 System.out.println("Opción no válida");
             }
         } while (opcion < 1 || opcion > peces.length);
+    }
+
+    /**
+     * Vende peces adultos en todas las piscifactorías.
+     * Luego, muestra las estadísticas relacionadas con la venta de peces.
+     */
+    public void venderPeces() {
+        for (Piscifactoria pisc : piscifactorias) {
+            pisc.venderAdultos();
+        }
+        Stats.getInstancia().mostrar();
     }
 }

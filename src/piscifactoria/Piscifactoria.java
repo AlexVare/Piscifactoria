@@ -19,6 +19,10 @@ import peces.Sargo;
 import peces.TruchaArcoiris;
 import tanque.Tanque;
 
+/**
+ * La clase Piscifactoria representa una instalación de cría de peces con varios
+ * tanques.
+ */
 public class Piscifactoria {
 
     private final boolean rio;
@@ -27,6 +31,13 @@ public class Piscifactoria {
     private int almacen;
     private int almacenMax;
 
+    /**
+     * Constructor de la clase Piscifactoria.
+     *
+     * @param rio    Un valor booleano que indica si la piscifactoria está ubicada
+     *               en un río o en el mar.
+     * @param nombre El nombre de la piscifactoria.
+     */
     public Piscifactoria(boolean rio, String nombre) {
         this.rio = rio;
         if (this.rio) {
@@ -54,9 +65,14 @@ public class Piscifactoria {
         return tanques;
     }
 
+    /**
+     * Realiza las acciones correspondientes para avanzar un día en la
+     * piscifactoria, incluyendo alimentar a los peces, permitir la reproducción y
+     * realizar ventas.
+     */
     public void nuevoDia() {
         for (int i = 0; i < this.tanques.size(); i++) {
-            if (almacen != 0) {
+            if (this.almacen != 0) {
                 this.almacen -= this.tanques.get(i).nuevoDiaComer(this.almacen);
                 this.tanques.get(i).nuevoDiaReproduccion();
             }
@@ -67,6 +83,19 @@ public class Piscifactoria {
         this.gananciaDiaria();
     }
 
+    /**
+     * Vende todos los peces adultos en los tanques de la piscifactoria.
+     */
+    public void venderAdultos() {
+        for (Tanque<Pez> tanque : tanques) {
+            tanque.venderAdultos();
+        }
+    }
+
+    /**
+     * Calcula la ganancia diaria total de la piscifactoria y la muestra en la
+     * consola.
+     */
     public void gananciaDiaria() {
         int cantidad = 0;
         int ganancia = 0;
@@ -78,6 +107,12 @@ public class Piscifactoria {
                 + " monedas totales");
     }
 
+    /**
+     * Realiza una actualización de la capacidad de almacenamiento de comida en
+     * función de la ubicación de la piscifactoria.
+     * Para ubicaciones en río, la capacidad se incrementa en 25 unidades.
+     * Para ubicaciones maritimas, la capacidad se incrementa en 100 unidades.
+     */
     public void upgradeFood() {
         if (this.rio) {
             if (Monedas.getInstancia().comprobarPosible(100)) {
@@ -104,6 +139,9 @@ public class Piscifactoria {
         }
     }
 
+    /**
+     * Permite comprar un nuevo tanque de peces en la piscifactoria.
+     */
     public void comprarTanque() {
         if (this.rio) {
             if (Monedas.getInstancia().comprobarPosible(150 * this.tanques.size())) {
@@ -130,22 +168,37 @@ public class Piscifactoria {
         }
     }
 
+    /**
+     * Muestra el estado actual de la piscifactoria en la consola, incluyendo
+     * información sobre la ocupación,
+     * peces vivos, peces alimentados, peces adultos, hembras/machos y el
+     * almacenamiento de comida.
+     */
     public void showStatus() {
-        System.out.println("=========="+this.nombre+"==========");
-        System.out.println("Tanques: "+this.tanques.size());
-        System.out.println("Ocupacion: "+this.pecesTotales()+"/"+this.capacidadTotal()+ " ("+ this.porcentaje(this.pecesTotales(),this.capacidadTotal()) + "%)");
-        System.out.println("Peces vivos: "+this.vivosTotales()+"/"+this.pecesTotales()+ " ("+ this.porcentaje(this.vivosTotales(),this.pecesTotales()) + "%)");
-        System.out.println("Peces alimentados: "+this.alimentadosTotales()+"/"+this.vivosTotales()+ " ("+ this.porcentaje(this.alimentadosTotales(),this.vivosTotales()) + "%)");
-        System.out.println("Peces adultos: "+this.adultosTotales()+"/"+this.vivosTotales()+ " ("+ this.porcentaje(this.adultosTotales(),this.vivosTotales()) + "%)");
-        System.out.println("Hembras/Machos: "+this.hembrasTotales()+"/"+this.machosTotales());
-        System.out.println("Almacen de comida actual: "+this.almacen+"/"+this.almacenMax+  " ("+ this.porcentaje(this.almacen,this.almacenMax) + "%)");
+        System.out.println("==========" + this.nombre + "==========");
+        System.out.println("Tanques: " + this.tanques.size());
+        System.out.println("Ocupacion: " + this.pecesTotales() + "/" + this.capacidadTotal() + " ("
+                + this.porcentaje(this.pecesTotales(), this.capacidadTotal()) + "%)");
+        System.out.println("Peces vivos: " + this.vivosTotales() + "/" + this.pecesTotales() + " ("
+                + this.porcentaje(this.vivosTotales(), this.pecesTotales()) + "%)");
+        System.out.println("Peces alimentados: " + this.alimentadosTotales() + "/" + this.vivosTotales() + " ("
+                + this.porcentaje(this.alimentadosTotales(), this.vivosTotales()) + "%)");
+        System.out.println("Peces adultos: " + this.adultosTotales() + "/" + this.vivosTotales() + " ("
+                + this.porcentaje(this.adultosTotales(), this.vivosTotales()) + "%)");
+        System.out.println("Hembras/Machos: " + this.hembrasTotales() + "/" + this.machosTotales());
+        System.out.println("Almacen de comida actual: " + this.almacen + "/" + this.almacenMax + " ("
+                + this.porcentaje(this.almacen, this.almacenMax) + "%)");
     }
 
+    /**
+     * Permite al jugador elegir un tanque para agregar un nuevo pez, ya sea
+     * comprando un pez o eligiendo uno de los peces disponibles.
+     */
     public void nuevoPez() {
         Console c = System.console();
         int opcion = 0;
         int pez = 0;
-        boolean salida=false;
+        boolean salida = false;
         try {
             do {
                 this.listTanks();
@@ -156,7 +209,7 @@ public class Piscifactoria {
                     if (this.tanques.get(opcion).getPeces().size() != 0) {
                         try {
                             this.tanques.get(opcion).comprarPez();
-                            salida=true;
+                            salida = true;
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
@@ -168,7 +221,7 @@ public class Piscifactoria {
                                 System.out.println(pez);
                                 if (pez > 0 && pez < 8) {
                                     this.añadirPez(opcion, pez);
-                                    salida=true;
+                                    salida = true;
                                 } else {
                                     System.out.println("Opción no válida, introduce una de las opciones mostradas");
                                 }
@@ -184,6 +237,9 @@ public class Piscifactoria {
         }
     }
 
+    /**
+     * Muestra en la consola la lista de tanques disponibles en la piscifactoria.
+     */
     public void listTanks() {
         for (int i = 0; i < this.tanques.size(); i++) {
             if (this.tanques.get(i).getPeces().size() == 0) {
@@ -194,6 +250,10 @@ public class Piscifactoria {
         }
     }
 
+    /**
+     * Muestra en la consola las opciones disponibles para agregar un nuevo pez en
+     * funcion del tipo de piscifactoría.
+     */
     public void opcionPez() {
         if (this.rio) {
             System.out.println("******Peces******");
@@ -216,6 +276,13 @@ public class Piscifactoria {
         }
     }
 
+    /**
+     * Agrega un nuevo pez al tanque especificado en función de la elección del
+     * jugador.
+     *
+     * @param tanque El índice del tanque al que se agregará el nuevo pez.
+     * @param pez    El índice del tipo de pez a agregar.
+     */
     public void añadirPez(int tanque, int pez) {
         if (this.rio) {
             if (this.tanques.get(tanque).getPeces().size() < this.tanques.get(tanque).getCapacidad()) {
@@ -283,76 +350,137 @@ public class Piscifactoria {
         }
     }
 
-    public int vivosTotales(){
-        int cantidad=0;
+    /**
+     * Calcula la cantidad total de peces vivos en la piscifactoria.
+     *
+     * @return La cantidad total de peces vivos.
+     */
+    public int vivosTotales() {
+        int cantidad = 0;
 
         for (Tanque<Pez> tanque : tanques) {
-            cantidad+=tanque.vivos();
-        }
-        return cantidad;
-    }
-    
-    public int alimentadosTotales(){
-        int cantidad=0;
-
-        for (Tanque<Pez> tanque : tanques) {
-            cantidad+=tanque.alimentados();
-        }
-        return cantidad;
-    }
-    
-    public int adultosTotales(){
-        int cantidad=0;
-
-        for (Tanque<Pez> tanque : tanques) {
-            cantidad+=tanque.adultos();
-        }
-        return cantidad;
-    }
-    
-    public int machosTotales(){
-        int cantidad=0;
-
-        for (Tanque<Pez> tanque : tanques) {
-            cantidad+=tanque.machos();
-        }
-        return cantidad;
-    }
-    
-    public int hembrasTotales(){
-        int cantidad=0;
-
-        for (Tanque<Pez> tanque : tanques) {
-            cantidad+=tanque.hembras();
+            cantidad += tanque.vivos();
         }
         return cantidad;
     }
 
-    public int pecesTotales(){
-        int cantidad=0;
+    /**
+     * Calcula la cantidad total de peces alimentados en la piscifactoria.
+     *
+     * @return La cantidad total de peces alimentados.
+     */
+    public int alimentadosTotales() {
+        int cantidad = 0;
 
         for (Tanque<Pez> tanque : tanques) {
-            cantidad+=tanque.getPeces().size();
+            cantidad += tanque.alimentados();
         }
         return cantidad;
     }
 
-    public int capacidadTotal(){
-        int cantidad=0;
-        
+    /**
+     * Calcula la cantidad total de peces adultos en la piscifactoria.
+     *
+     * @return La cantidad total de peces adultos.
+     */
+    public int adultosTotales() {
+        int cantidad = 0;
+
         for (Tanque<Pez> tanque : tanques) {
-            cantidad+=tanque.getCapacidad();
+            cantidad += tanque.adultos();
         }
         return cantidad;
     }
 
-    public double porcentaje(int numero1, int numero2){
+    /**
+     * Calcula la cantidad total de machos en la piscifactoria.
+     *
+     * @return La cantidad total de machos.
+     */
+    public int machosTotales() {
+        int cantidad = 0;
+
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad += tanque.machos();
+        }
+        return cantidad;
+    }
+
+    /**
+     * Calcula la cantidad total de hembras en la piscifactoria.
+     *
+     * @return La cantidad total de hembras.
+     */
+    public int hembrasTotales() {
+        int cantidad = 0;
+
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad += tanque.hembras();
+        }
+        return cantidad;
+    }
+
+    /**
+     * Calcula la cantidad total de peces en la piscifactoria.
+     *
+     * @return La cantidad total de peces.
+     */
+    public int pecesTotales() {
+        int cantidad = 0;
+
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad += tanque.getPeces().size();
+        }
+        return cantidad;
+    }
+
+    /**
+     * Calcula la capacidad total de almacenamiento de peces en la piscifactoria.
+     *
+     * @return La capacidad total de almacenamiento de peces.
+     */
+    public int capacidadTotal() {
+        int cantidad = 0;
+
+        for (Tanque<Pez> tanque : tanques) {
+            cantidad += tanque.getCapacidad();
+        }
+        return cantidad;
+    }
+
+    /**
+     * Calcula el porcentaje en función de dos números enteros.
+     *
+     * @param numero1 El primer número.
+     * @param numero2 El segundo número (denominador).
+     * @return El porcentaje calculado.
+     */
+    public double porcentaje(int numero1, int numero2) {
         if (numero2 == 0) {
             return 0.0;
         }
-        
+
         double porcentaje = (double) numero1 / numero2 * 100;
         porcentaje = Math.round(porcentaje * 10) / 10.0;
         return porcentaje;
+    }
+
+    /**
+     * Limpia los tanques de peces en la piscifactoria, eliminando los peces
+     * muertos.
+     */
+    public void limpiarTanques() {
+        for (Tanque<Pez> tanque : tanques) {
+            tanque.limpiarTanque();
+        }
+    }
+
+    /**
+     * Vacia los tanques de peces en la piscifactoria.
+     */
+    public void vaciarTanques() {
+        for (Tanque<Pez> tanque : tanques) {
+            tanque.vaciarTanque();
+        }
     }
 }

@@ -160,9 +160,13 @@ public class Pejerrey extends Pez {
     }
 
     public boolean reproduccion() {
-        if (this.maduro && this.edad % this.datos.getCiclo() == 0 && !this.sexo) {
+        if (this.maduro && this.edad % this.datos.getCiclo() == 0) {
+            if(!this.sexo){
             this.ciclo = this.datos.getCiclo();
             return true;
+            }else{
+                return false;
+            }
         } else {
             this.ciclo--;
             return false;

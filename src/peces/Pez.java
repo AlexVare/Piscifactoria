@@ -4,6 +4,9 @@ import java.util.Random;
 
 import propiedades.PecesDatos;
 
+/**
+ * Clase abstracta que representa a un pez en la simulación.
+ */
 public abstract class Pez {
 
     protected int edad = 0;
@@ -18,6 +21,11 @@ public abstract class Pez {
         return alimentado;
     }
 
+    /**
+     * Obtiene los datos específicos del pez.
+     *
+     * @return Datos específicos del pez.
+     */
     public PecesDatos getDatos() {
         return datos;
     }
@@ -58,9 +66,18 @@ public abstract class Pez {
         }
     }
 
+    /**
+     * Muestra el estado actual del pez.
+     */
     public void showStatus() {
     }
 
+    /**
+     * Verifica si el pez pudo comer en base a la cantidad de comida proporcionada.
+     *
+     * @param comida Cantidad de comida disponible.
+     * @return Cantidad de comida consumida, en caso de ser 3 el pez no comió.
+     */
     public int comer(int comida) {
         if (comida != 0) {
             return 1;
@@ -69,6 +86,13 @@ public abstract class Pez {
         }
     }
 
+    /**
+     * Controla el crecimiento del pez en función de la comida proporcionada.
+     *
+     * @param comida Cantidad de comida disponible.
+     * @param comido Indica si el pez ha sido alimentado por un pez muerto.
+     * @return Cantidad de alimento consumido.
+     */
     public int grow(int comida, boolean comido) {
         if (comido) {
             if (this.vivo == true) {
@@ -95,6 +119,11 @@ public abstract class Pez {
         }
     }
 
+    /**
+     * Verifica si el pez muerto debe ser eliminado.
+     *
+     * @return true si el pez debe ser eliminado, false en caso contrario.
+     */
     public boolean eliminarPez() {
         Random comer = new Random();
         if (comer.nextBoolean()) {
@@ -104,6 +133,9 @@ public abstract class Pez {
         }
     }
 
+    /**
+     * Comprueba la muerte del pez en base a un 50% de probabilidades.
+     */
     public void morision() {
         Random muerte = new Random();
         if (muerte.nextBoolean()) {
@@ -111,6 +143,11 @@ public abstract class Pez {
         }
     }
 
+    /**
+     * Verifica si el pez es apto para la reproducción.
+     *
+     * @return true si el pez es apto para reproducirse, false en caso contrario.
+     */
     public boolean reproduccion() {
         if (this.maduro && this.edad % this.datos.getCiclo() == 0) {
             if (!this.sexo) {
@@ -135,6 +172,11 @@ public abstract class Pez {
         }
     }
 
+    /**
+     * Verifica si el pez está en su estado óptimo para la venta.
+     *
+     * @return true si el pez está en su estado óptimo, false en caso contrario.
+     */
     public boolean isOptimo() {
         if (this.edad == this.datos.getOptimo()) {
             return true;
