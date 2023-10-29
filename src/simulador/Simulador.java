@@ -65,7 +65,7 @@ public class Simulador {
                         simulador.nuevoDia(1);
                         break;
                     case 7:
-
+                        simulador.addFood();
                         break;
                     case 8:
                         simulador.añadirPez();
@@ -96,7 +96,7 @@ public class Simulador {
 
                         break;
                     case 99:
-                        Monedas.getInstancia().setCantidad(1000);
+                        Monedas.getInstancia().agregarMonedos(1000);
                         break;
                     default:
 
@@ -263,6 +263,47 @@ public class Simulador {
         for (Piscifactoria pisc : piscifactorias) {
             pisc.vaciarTanques();
         }
+    }
+
+    /***
+     * Método para comprar comida
+     * 
+     */
+    public void addFood() {
+        this.selecPisc();
+        int pisc = Integer.parseInt(sc.nextLine());
+
+        this.piscifactorias.get(pisc).getAlmacen();
+        System.out.println("Opciones de comida:");
+        System.out.println("1. Añadir 5");
+        System.out.println("2. Añadir 10");
+        System.out.println("3. Añadir 25");
+        System.out.println("4. Llenar");
+        System.out.println("5. Salir");
+        System.out.print("Elige una opción: ");
+
+        int opcion = Integer.parseInt(sc.nextLine());
+
+        switch (opcion) {
+            case 1:
+                this.piscifactorias.get(pisc).agregarComida(5);
+                break;
+            case 2:
+                this.piscifactorias.get(pisc).agregarComida(10);
+                break;
+            case 3:
+                this.piscifactorias.get(pisc).agregarComida(25);
+                break;
+            case 4:
+                this.piscifactorias.get(pisc).agregarComida(this.piscifactorias.get(pisc).getAlmacenMax() - this.piscifactorias.get(pisc).getAlmacen());
+                break;
+            case 5:
+                break;
+            default:
+                System.out.println("Opción no válida.");
+        }
+
+
     }
 
     /**

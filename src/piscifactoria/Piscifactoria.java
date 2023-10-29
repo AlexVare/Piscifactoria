@@ -53,6 +53,14 @@ public class Piscifactoria {
         }
     }
 
+    public int getAlmacenMax() {
+        return almacenMax;
+    }
+
+    public int getAlmacen() {
+        return almacen;
+    }
+
     public boolean isRio() {
         return rio;
     }
@@ -481,6 +489,30 @@ public class Piscifactoria {
     public void vaciarTanques() {
         for (Tanque<Pez> tanque : tanques) {
             tanque.vaciarTanque();
+        }
+    }
+
+    /**
+     * Método para comprar más comida para el almacén
+     * @param cantidad Cantidad de comida a agregar 
+     */
+    public void agregarComida(int cantidad){
+        int costo;
+        if (cantidad <= 25) {
+            costo = cantidad;
+        } else {
+            costo = cantidad - (cantidad / 25) * 5;
+        }
+
+        if (Monedas.getInstancia().comprobarPosible(costo)) {
+            this.almacen += cantidad;
+            Monedas.getInstancia().compra(costo);
+            if (this.almacen > this.almacenMax) {
+                this.almacen = this.almacenMax;
+            }
+            System.out.println("Añadida " + cantidad + " de comida");
+        } else {
+            System.out.println("No tienes suficientes monedas para agregar comida.");
         }
     }
 }

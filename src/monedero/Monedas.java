@@ -69,4 +69,12 @@ public class Monedas {
     public void venta(int precio){
         this.cantidad+=precio;
     }
+
+    /***
+     * Método para aumentar las monedas
+     * @param monedas Cantidad a aumentar
+     */
+    public void agregarMonedos(int monedas){
+        this.cantidad+=monedas;
+    }
 }
