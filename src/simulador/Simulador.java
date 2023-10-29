@@ -273,7 +273,6 @@ public class Simulador {
         this.selecPisc();
         int pisc = Integer.parseInt(sc.nextLine());
 
-        this.piscifactorias.get(pisc).getAlmacen();
         System.out.println("Opciones de comida:");
         System.out.println("1. Añadir 5");
         System.out.println("2. Añadir 10");
@@ -286,24 +285,22 @@ public class Simulador {
 
         switch (opcion) {
             case 1:
-                this.piscifactorias.get(pisc).agregarComida(5);
+                this.piscifactorias.get(pisc-1).agregarComida(5);
                 break;
             case 2:
-                this.piscifactorias.get(pisc).agregarComida(10);
+                this.piscifactorias.get(pisc-1).agregarComida(10);
                 break;
             case 3:
-                this.piscifactorias.get(pisc).agregarComida(25);
+                this.piscifactorias.get(pisc-1).agregarComida(25);
                 break;
             case 4:
-                this.piscifactorias.get(pisc).agregarComida(this.piscifactorias.get(pisc).getAlmacenMax() - this.piscifactorias.get(pisc).getAlmacen());
+                this.piscifactorias.get(pisc-1).agregarComida(this.piscifactorias.get(pisc-1).getAlmacenMax() - this.piscifactorias.get(pisc-1).getAlmacen());
                 break;
             case 5:
                 break;
             default:
                 System.out.println("Opción no válida.");
         }
-
-
     }
 
     /**
