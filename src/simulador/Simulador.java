@@ -230,11 +230,16 @@ public class Simulador {
         System.out.println("Dia: " + this.dias);
         System.out.println(Monedas.getInstancia().getCantidad() + " monedas disponibles");
         if (almacenCentral == true) {
-            System.out.println("Almacen central: " + AlmacenCentral.getInstance().getCapacidad() + "/"
-                    + AlmacenCentral.getInstance().getCapacidadMax() + " ("
-                    + this.piscifactorias.get(0).porcentaje(AlmacenCentral.getInstance().getCapacidad(),
-                            AlmacenCentral.getInstance().getCapacidadMax())
-                    + "%)");
+            System.out.println("Almacen central: " + AlmacenCentral.getInstance().getCapacidadVeg() + "/"
+                    + AlmacenCentral.getInstance().getCapacidadVegMax() + " ("
+                    + this.piscifactorias.get(0).porcentaje(AlmacenCentral.getInstance().getCapacidadVeg(),
+                            AlmacenCentral.getInstance().getCapacidadVegMax())
+                    + "%) comida vegetal");
+            System.out.println("Almacen central: " + AlmacenCentral.getInstance().getCapacidadAni() + "/"
+                    + AlmacenCentral.getInstance().getCapacidadAniMax() + " ("
+                    + this.piscifactorias.get(0).porcentaje(AlmacenCentral.getInstance().getCapacidadAni(),
+                            AlmacenCentral.getInstance().getCapacidadAniMax())
+                    + "%) comida animal");
         }
     }
 

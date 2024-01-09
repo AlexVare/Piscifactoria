@@ -23,25 +23,37 @@ public class AlmacenCentral {
         return instance;
     }
 
-    int capacidad=0;
+    int capacidadVeg=0;
+    int capacidadAni=0;
 
-    int capacidadMax=0;
+    int capacidadVegMax=0;
+    int capacidadAniMax=0;
 
     /**
      * Constructor privado de la clase AlmacenCentral.
      * Inicializa la capacidad máxima del almacén.
      */
     private AlmacenCentral() {
-        this.capacidadMax = 200;
-        this.capacidad=200;
+        this.capacidadAniMax = 200;
+        this.capacidadAni=200;
+        this.capacidadVegMax = 200;
+        this.capacidadVeg=200;
     }
 
-    public int getCapacidadMax() {
-        return capacidadMax;
+    public int getCapacidadVegMax() {
+        return capacidadVegMax;
     }
 
-    public int getCapacidad() {
-        return capacidad;
+    public int getCapacidadVeg() {
+        return capacidadVeg;
+    }
+
+    public int getCapacidadAniMax() {
+        return capacidadVegMax;
+    }
+
+    public int getCapacidadAni() {
+        return capacidadVeg;
     }
     
      /**
@@ -50,7 +62,8 @@ public class AlmacenCentral {
      * @param cantidad La cantidad en la que se aumentará la capacidad máxima.
      */
     public void aumentarCapacidad(int cantidad){
-        this.capacidadMax+=cantidad;
+        this.capacidadVegMax+=cantidad;
+        this.capacidadAniMax+=cantidad;
     }
 
     /**
