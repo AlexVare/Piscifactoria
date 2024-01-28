@@ -5,15 +5,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import inputHelper.EscritorHelper;
 import monedero.Monedas;
 import peces.Pez;
+import piscifactoria.Piscifactoria;
 import stats.Stats;
 
 /**
  * La clase Tanque representa un tanque de peces en la piscifactoría.
- * Permite gestionar los peces en el tanque, realizar operaciones como alimentar, reproducir y vender.
+ * Permite gestionar los peces en el tanque, realizar operaciones como
+ * alimentar, reproducir y vender.
  *
- * @param <T> El tipo de pez que se almacena en el tanque (debe extender la clase Pez).
+ * @param <T> El tipo de pez que se almacena en el tanque (debe extender la
+ *            clase Pez).
  */
 public class Tanque<T extends Pez> {
 
@@ -21,6 +25,7 @@ public class Tanque<T extends Pez> {
     int capacidad;
     int vendidos = 0;
     int ganancias = 0;
+    int cadaveres = 0;
     ArrayList<Integer> muertos = new ArrayList<>();
 
     public Tanque(int capacidad) {
@@ -44,7 +49,8 @@ public class Tanque<T extends Pez> {
     }
 
     /**
-     * Muestra el estado del tanque, incluyendo la ocupación, cantidad de peces vivos, alimentados, adultos y género.
+     * Muestra el estado del tanque, incluyendo la ocupación, cantidad de peces
+     * vivos, alimentados, adultos y género.
      */
     public void showStatus() {
         System.out.println("Ocupación: " + this.peces.size() + "/" + this.capacidad + " ("
@@ -98,31 +104,25 @@ public class Tanque<T extends Pez> {
      * @param comida La cantidad de comida disponible para los peces.
      * @return La cantidad de comida consumida.
      */
-    public int nuevoDiaComer(int comida) {
-        int resto = comida;
-        int cadaveres = 0;
-
-        if (this.hasDead()) {
-            cadaveres = this.muertos.size();
-        }
+    public void nuevoDiaComer(Piscifactoria pisc, Boolean almacenCen) {
         for (Pez pez : peces) {
             if (pez.isVivo()) {
-                if (cadaveres != 0) {
-                    if (pez.eliminarPez()) {
-                        cadaveres--;
-                    }
-                    pez.grow(resto, true);
-                } else {
-                    resto -= pez.grow(resto, false);
-                }
+                pez.grow(this, pisc, almacenCen);
             }
         }
-        if (this.muertos.size() != 0) {
-            for (int i = muertos.size() - 1; i >= cadaveres; i--) {
-                this.peces.remove((int) this.muertos.get(i));
+    }
+
+    public boolean borrarMuerto() {
+        Iterator<Pez> iterator = this.peces.iterator();
+
+        while (iterator.hasNext()) {
+            Pez objeto = iterator.next();
+            if (objeto.isVivo() == false) {
+                iterator.remove();
+                return true;
             }
         }
-        return resto;
+        return false;
     }
 
     /**
@@ -133,8 +133,9 @@ public class Tanque<T extends Pez> {
         List<Pez> nuevosPeces = new ArrayList<>();
 
         for (Pez pez : peces) {
+
             if (pez.isVivo() && capacidadDisponible > 0) {
-                if (pez.isMaduro() && pez.reproduccion()) {
+                if (pez.reproduccion()) {
                     int huevos = pez.getDatos().getHuevos();
 
                     if (huevos <= capacidadDisponible) {
@@ -210,9 +211,11 @@ public class Tanque<T extends Pez> {
     }
 
     /**
-     * Determina si se debe crear un nuevo pez macho o hembra en función de la proporción en el tanque.
+     * Determina si se debe crear un nuevo pez macho o hembra en función de la
+     * proporción en el tanque.
      *
-     * @return true si se debe crear un nuevo pez macho, false si se debe crear un nuevo pez hembra.
+     * @return true si se debe crear un nuevo pez macho, false si se debe crear un
+     *         nuevo pez hembra.
      */
     public boolean sexoNuevoPez() {
         if (this.machos() == 0 && this.hembras() == 0) {
@@ -236,7 +239,7 @@ public class Tanque<T extends Pez> {
             Constructor<? extends Pez> constructor = tipoDePez.getDeclaredConstructor(boolean.class);
             return constructor.newInstance(this.sexoNuevoPez());
         } catch (Exception e) {
-            e.printStackTrace();
+            EscritorHelper.getEscritorHelper("").addError("Error al generar un nuevo pez");
             return null;
         }
     }
@@ -299,10 +302,10 @@ public class Tanque<T extends Pez> {
         while (iterator.hasNext()) {
             Pez pez = iterator.next();
             if (pez.isMaduro() && pez.isVivo()) {
-                Monedas.getInstancia().venta(pez.getDatos().getMonedas());
-                Stats.getInstancia().registrarVenta(pez.getDatos().getNombre(), pez.getDatos().getMonedas());
+                Monedas.getInstancia().venta(pez.getDatos().getMonedas() / 2);
+                Stats.getInstancia().registrarVenta(pez.getDatos().getNombre(), pez.getDatos().getMonedas() / 2);
                 this.vendidos++;
-                this.ganancias += pez.getDatos().getMonedas();
+                this.ganancias += pez.getDatos().getMonedas() / 2;
                 iterator.remove();
             }
         }

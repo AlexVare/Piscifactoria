@@ -2,7 +2,9 @@ package peces;
 
 import java.util.Random;
 
+import piscifactoria.Piscifactoria;
 import propiedades.PecesDatos;
+import tanque.Tanque;
 
 /**
  * Clase abstracta que representa a un pez en la simulación.
@@ -78,45 +80,36 @@ public abstract class Pez {
      * @param comida Cantidad de comida disponible.
      * @return Cantidad de comida consumida, en caso de ser 3 el pez no comió.
      */
-    public int comer(int comida) {
-        if (comida != 0) {
-            return 1;
-        } else {
-            return 3;
-        }
+    public void comer(Tanque tanque, Piscifactoria pisc, Boolean almacenCen) {
     }
 
     /**
      * Controla el crecimiento del pez en función de la comida proporcionada.
      *
-     * @param comida Cantidad de comida disponible.
-     * @param comido Indica si el pez ha sido alimentado por un pez muerto.
-     * @return Cantidad de alimento consumido.
+     * @param tanque Tanque al que pertenece el pez.
+     * @param pisc   Piscifactoria en la que se encuentra.
      */
-    public int grow(int comida, boolean comido) {
-        if (comido) {
-            if (this.vivo == true) {
-                this.edad++;
-                this.alimentado = true;
-                this.comprobarMadurez();
-            }
-            return 0;
-        } else {
-            int com = this.comer(comida);
-            if (com == 3) {
-                this.alimentado = false;
-                this.morision();
-            }
-            if (this.vivo == true) {
-                this.edad++;
-                this.comprobarMadurez();
-                if (com != 3) {
-                    this.alimentado = true;
-                    return com;
+    public void grow(Tanque tanque, Piscifactoria pisc, Boolean almacenCen) {
+        Random random = new Random();
+
+        if (this.vivo) {
+            comer(tanque, pisc, almacenCen);
+            // Verificar probabilidad de muerte antes de la madurez
+            if (!this.maduro && random.nextDouble() < 0.05) {
+                this.vivo = false; // El 5% de probabilidad de morir
+            } else {
+                // Resto de la lógica cuando no muere
+                if (!this.alimentado) {
+                    this.morision();
+                }
+                if (this.vivo) {
+                    this.edad++;
+                    System.out.println(this.edad);
+                    this.comprobarMadurez();
                 }
             }
-            return 0;
         }
+        this.alimentado = false;
     }
 
     /**
@@ -156,7 +149,6 @@ public abstract class Pez {
             } else {
                 return false;
             }
-
         } else {
             this.ciclo--;
             return false;
@@ -166,7 +158,6 @@ public abstract class Pez {
     public void comprobarMadurez() {
         if (this.edad >= this.datos.getMadurez()) {
             this.setMaduro(true);
-
         } else {
             this.setMaduro(false);
         }

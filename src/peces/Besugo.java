@@ -5,28 +5,28 @@ import java.util.Random;
 import propiedades.AlmacenPropiedades;
 import propiedades.PecesDatos;
 
-public class Besugo extends Pez{
-    
-    public static void datos(){
+public class Besugo extends Carnivoro {
+
+    public static void datos() {
         PecesDatos datos = AlmacenPropiedades.BESUGO;
-        
+
         System.out.println("------------------------------");
-        System.out.println("Nombre común: "+datos.getNombre());
-        System.out.println("Nombre científico: "+ datos.getCientifico());
-        System.out.println("Tipo: "+datos.getTipo());
-        System.out.println("Coste: "+datos.getCoste());
-        System.out.println("Precio venta: "+datos.getMonedas());
-        System.out.println("Huevos: "+datos.getHuevos());
-        System.out.println("Ciclo: "+datos.getCiclo());
-        System.out.println("Madurez: "+datos.getMadurez());
-        System.out.println("Óptimo: "+datos.getOptimo());
+        System.out.println("Nombre común: " + datos.getNombre());
+        System.out.println("Nombre científico: " + datos.getCientifico());
+        System.out.println("Tipo: " + datos.getTipo());
+        System.out.println("Coste: " + datos.getCoste());
+        System.out.println("Precio venta: " + datos.getMonedas());
+        System.out.println("Huevos: " + datos.getHuevos());
+        System.out.println("Ciclo: " + datos.getCiclo());
+        System.out.println("Madurez: " + datos.getMadurez());
+        System.out.println("Óptimo: " + datos.getOptimo());
     }
 
     private final PecesDatos datos = AlmacenPropiedades.BESUGO;
 
-    public Besugo(boolean sexo){
-        this.sexo=sexo;
-        this.ciclo=this.datos.getCiclo();
+    public Besugo(boolean sexo) {
+        this.sexo = sexo;
+        this.ciclo = this.datos.getCiclo();
     }
 
     public boolean isAlimentado() {
@@ -96,74 +96,10 @@ public class Besugo extends Pez{
         } else {
             System.out.println("Fértil: No");
         }
-        if(this.alimentado){
+        if (this.alimentado) {
             System.out.println("Alimentado: Si");
-        }else{
+        } else {
             System.out.println("Alimentado: No");
-        }
-    }
-
-    public int comer(int comida) {
-        if (comida != 0) {
-            return 1;
-        } else {
-            return 3;
-        }
-    }
-
-    public int grow(int comida, boolean comido) {
-        if (comido) {
-            if (this.vivo == true) {
-                this.edad++;
-                this.alimentado = true;
-                this.comprobarMadurez();
-            }
-            return 0;
-        } else {
-            int com = this.comer(comida);
-            if (com == 3) {
-                this.alimentado = false;
-                this.morision();
-            }
-            if (this.vivo == true) {
-                this.edad++;
-                this.comprobarMadurez();
-                if (com != 3) {
-                    this.alimentado = true;
-                    return com;
-                }
-            }
-            return 0;
-        }
-    }
-
-    public boolean eliminarPez() {
-        Random comer = new Random();
-        if (comer.nextBoolean()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void morision() {
-        Random muerte = new Random();
-        if (muerte.nextBoolean()) {
-            this.setVivo(false);
-        }
-    }
-
-    public boolean reproduccion() {
-        if (this.maduro && this.edad % this.datos.getCiclo() == 0) {
-            if(!this.sexo){
-            this.ciclo = this.datos.getCiclo();
-            return true;
-            }else{
-                return false;
-            }
-        } else {
-            this.ciclo--;
-            return false;
         }
     }
 

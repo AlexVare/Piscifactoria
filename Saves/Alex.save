@@ -1,0 +1,62 @@
+{
+  "implementados": [
+    "Tilapia del Nilo",
+    "Lucio del norte",
+    "Corvina",
+    "Salmón chinook",
+    "Pejerrey ",
+    "Lenguado europeo",
+    "Caballa",
+    "Róbalo",
+    "Lubina europea",
+    "Besugo",
+    "Arenque del Atlántico",
+    "Salmón atlántico"
+  ],
+  "empresa": "Alex",
+  "dia": 3,
+  "monedas": 3050,
+  "edificios": {
+    "almacen": {
+      "disponible": true,
+      "capacidad": 200,
+      "comida": {
+        "general": 200
+      }
+    }
+  },
+  "piscifactorias": [
+    {
+      "nombre": "Pisc1",
+      "tipo": true,
+      "capacidad": 25,
+      "comida": {
+        "general": 21
+      },
+      "tanques": [
+        {
+          "pez": "Pejerrey ",
+          "num": 2,
+          "datos": {
+            "vivos": 2,
+            "maduros": 0
+          },
+          "peces": [
+            {
+              "edad": 0,
+              "sexo": true,
+              "vivo": true,
+              "maduro": false
+            },
+            {
+              "edad": 0,
+              "sexo": false,
+              "vivo": true,
+              "maduro": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

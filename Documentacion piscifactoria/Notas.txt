@@ -1,14 +1,14 @@
 Peces de río:
     -Pejerrey (carnivoro)
-    -Lucio del norte (carnivoro,activo)
+    -Carpa plateada (filtrador)
     -Salmón chinook (carnivoro)
-    -Perca europea (carnivoro, activo)
+    -Tilapia del Nilo (filtrador)
     -Carpa (omnivoro, voraz)
 
 Peces de mar:
     -Róbalo (carnivoro)
     -Caballa (carnivoro)
-    -Lenguado europeo (carnivoro)
+    -Arenque del atlántico (filtrador)
     -Sargo (omnivoro)
     -Besugo (carnivoro)
 

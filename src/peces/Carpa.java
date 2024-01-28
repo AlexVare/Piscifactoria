@@ -18,15 +18,6 @@ public class Carpa extends Omnivoro {
         this.ciclo = this.datos.getCiclo();
     }
 
-    @Override
-    public int comer(int comida) {
-        if (comida != 0) {
-            return 2;
-        } else {
-            return 3;
-        }
-    }
-
     public static void datos() {
         PecesDatos datos = AlmacenPropiedades.CARPA;
 
@@ -109,40 +100,6 @@ public class Carpa extends Omnivoro {
             System.out.println("Alimentado: Si");
         } else {
             System.out.println("Alimentado: No");
-        }
-    }
-
-    public int grow(int comida, boolean comido) {
-        return super.grow(comida, comido);
-    }
-
-    public boolean eliminarPez() {
-        Random comer = new Random();
-        if (comer.nextBoolean()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void morision() {
-        Random muerte = new Random();
-        if (muerte.nextBoolean()) {
-            this.setVivo(false);
-        }
-    }
-
-    public boolean reproduccion() {
-        if (this.maduro && this.edad % this.datos.getCiclo() == 0) {
-            if (!this.sexo) {
-                this.ciclo = this.datos.getCiclo();
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            this.ciclo--;
-            return false;
         }
     }
 
