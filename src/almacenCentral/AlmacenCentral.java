@@ -1,5 +1,6 @@
 package almacenCentral;
 
+import inputHelper.EscritorHelper;
 import monedero.Monedas;
 
 /**
@@ -75,6 +76,29 @@ public class AlmacenCentral {
             this.aumentarCapacidad(50);
         } else {
             System.out.println("No tienes monedas suficientes");
+        }
+    }
+
+    public void comprarComida(int cantidad) {
+        int costo;
+        if (cantidad <= 25) {
+            costo = cantidad;
+        } else {
+            costo = cantidad - (cantidad / 25) * 5;
+        }
+        if (Monedas.getInstancia().comprobarPosible(costo)) {
+            this.capacidad += cantidad;
+            Monedas.getInstancia().compra(costo);
+            if (this.capacidad > this.capacidadMax) {
+                this.capacidad = this.capacidadMax;
+            }
+            System.out.println("Añadida " + cantidad + " de comida");
+            EscritorHelper.getEscritorHelper("").addTrans(
+                    cantidad + "de comida comprada por " + costo + ". Se almacena en el almacén central");
+            EscritorHelper.getEscritorHelper("")
+                    .addLogs(cantidad + "de comida comprada. Se almacena en el almacén central");
+        } else {
+            System.out.println("No tienes suficientes monedas para agregar comida.");
         }
     }
 

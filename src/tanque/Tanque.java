@@ -268,6 +268,8 @@ public class Tanque<T extends Pez> {
         if (Monedas.getInstancia().comprobarPosible(pez.getDatos().getCoste())) {
             Monedas.getInstancia().compra(pez.getDatos().getCoste());
             this.peces.add(pez);
+            EscritorHelper.getEscritorHelper("").addTrans(pez.getDatos().getNombre() + "(" + pez.getSexo() + ")"
+                    + " comprado por " + pez.getDatos().getCoste() + ". Añadido al tanque de la piscifactoria ");
         } else {
             System.out.println("No tienes monedas suficientes");
         }
@@ -309,6 +311,8 @@ public class Tanque<T extends Pez> {
                 iterator.remove();
             }
         }
+        EscritorHelper.getEscritorHelper("")
+                .addTrans("Vendidos " + this.vendidos + "peces de forma manual por " + ganancias + " monedas");
     }
 
     /**

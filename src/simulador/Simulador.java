@@ -105,6 +105,7 @@ public class Simulador {
                         simulador.nuevoDia(pasar);
                         break;
                     case 15:
+                        EscritorHelper.getEscritorHelper(nombreCompa).addLogs("Cierre de la partida");
                         simulador.save();
                         break;
                     case 97:
@@ -133,6 +134,11 @@ public class Simulador {
                         break;
                     case 99:
                         Monedas.getInstancia().agregarMonedos(1000);
+                        EscritorHelper.getEscritorHelper(nombreCompa)
+                                .addTrans("Añadidas 1000 monedas a través de la opción oculta. Monedas actuales:"
+                                        + Monedas.getInstancia().getCantidad());
+                        EscritorHelper.getEscritorHelper(nombreCompa)
+                                .addLogs("Añadidas 1000 monedas a través de la opción oculta.");
                         break;
                     default:
 
@@ -708,37 +714,68 @@ public class Simulador {
      * 
      */
     public void addFood() {
-        this.selecPisc();
-        int pisc = InputHelper.inputOption(0, piscifactorias.size());
+        if (!almacenCentral) {
+            this.selecPisc();
+            int pisc = InputHelper.inputOption(0, piscifactorias.size());
 
-        System.out.println("Opciones de comida:");
-        System.out.println("1. Añadir 5");
-        System.out.println("2. Añadir 10");
-        System.out.println("3. Añadir 25");
-        System.out.println("4. Llenar");
-        System.out.println("5. Salir");
-        System.out.print("Elige una opción: ");
+            System.out.println("Opciones de comida:");
+            System.out.println("1. Añadir 5");
+            System.out.println("2. Añadir 10");
+            System.out.println("3. Añadir 25");
+            System.out.println("4. Llenar");
+            System.out.println("5. Salir");
+            System.out.print("Elige una opción: ");
 
-        int opcion = InputHelper.inputOption(1, 5);
+            int opcion = InputHelper.inputOption(1, 5);
 
-        switch (opcion) {
-            case 1:
-                this.piscifactorias.get(pisc - 1).agregarComida(5);
-                break;
-            case 2:
-                this.piscifactorias.get(pisc - 1).agregarComida(10);
-                break;
-            case 3:
-                this.piscifactorias.get(pisc - 1).agregarComida(25);
-                break;
-            case 4:
-                this.piscifactorias.get(pisc - 1).agregarComida(this.piscifactorias.get(pisc - 1).getAlmacenMax()
-                        - this.piscifactorias.get(pisc - 1).getAlmacen());
-                break;
-            case 5:
-                break;
-            default:
-                System.out.println("Opción no válida.");
+            switch (opcion) {
+                case 1:
+                    this.piscifactorias.get(pisc - 1).agregarComida(5);
+                    break;
+                case 2:
+                    this.piscifactorias.get(pisc - 1).agregarComida(10);
+                    break;
+                case 3:
+                    this.piscifactorias.get(pisc - 1).agregarComida(25);
+                    break;
+                case 4:
+                    this.piscifactorias.get(pisc - 1).agregarComida(this.piscifactorias.get(pisc - 1).getAlmacenMax()
+                            - this.piscifactorias.get(pisc - 1).getAlmacen());
+                    break;
+                case 5:
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } else {
+            System.out.println("Opciones de comida:");
+            System.out.println("1. Añadir 5");
+            System.out.println("2. Añadir 10");
+            System.out.println("3. Añadir 25");
+            System.out.println("4. Llenar");
+            System.out.println("5. Salir");
+            System.out.print("Elige una opción: ");
+
+            int opcion = InputHelper.inputOption(1, 5);
+            switch (opcion) {
+                case 1:
+                    AlmacenCentral.getInstance().comprarComida(5);
+                    break;
+                case 2:
+                    AlmacenCentral.getInstance().comprarComida(10);
+                    break;
+                case 3:
+                    AlmacenCentral.getInstance().comprarComida(25);
+                    break;
+                case 4:
+                    AlmacenCentral.getInstance().comprarComida(AlmacenCentral.getInstance().getCapacidadMax()
+                            - AlmacenCentral.getInstance().getCapacidad());
+                    break;
+                case 5:
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
         }
     }
 
@@ -773,7 +810,14 @@ public class Simulador {
             for (Piscifactoria pisc : piscifactorias) {
                 pisc.nuevoDia(this.almacenCentral);
             }
+            EscritorHelper.getEscritorHelper("")
+                    .addTrans("Fin del día" + this.dias);
+            EscritorHelper.getEscritorHelper(nombreCompa).addLogs("Fin del día" + this.dias);
+            EscritorHelper.getEscritorHelper("")
+                    .addTrans("---------------------------------------");
             this.dias++;
+            EscritorHelper.getEscritorHelper("")
+                    .addTrans("Inicio del día " + this.dias);
         }
     }
 
@@ -840,6 +884,7 @@ public class Simulador {
 
     private void comprarAlmacenCentral() {
         if (!almacenCentral) {
+
             comprarAlmacen();
         } else {
             System.out.println("Opción no válida, retrocediendo al menú principal");
@@ -1002,15 +1047,22 @@ public class Simulador {
             if (Monedas.getInstancia().comprobarPosible(this.rio() * 500)) {
                 Monedas.getInstancia().compra(this.rio() * 500);
                 String nompreP = nombrePisc();
+                EscritorHelper.getEscritorHelper("")
+                        .addTrans("Comprada la piscifactoria de río " + nompreP + "por " + (this.rio() * 500)
+                                + "monedas");
+                EscritorHelper.getEscritorHelper("").addLogs("Comprada la piscifactoria de río " + nompreP);
                 this.piscifactorias.add(new Piscifactoria(rio, nompreP));
             } else {
                 System.out.println("No tienes suficientes monedas");
             }
         } else {
             if (this.mar() == 0) {
-                if (Monedas.getInstancia().comprobarPosible(1 * 500)) {
-                    Monedas.getInstancia().compra(this.mar() * 500);
+                if (Monedas.getInstancia().comprobarPosible(500)) {
+                    Monedas.getInstancia().compra(500);
                     String nompreP = nombrePisc();
+                    EscritorHelper.getEscritorHelper("")
+                            .addTrans("Comprada la piscifactoria de mar " + nompreP + "por 500 monedas");
+                    EscritorHelper.getEscritorHelper("").addLogs("Comprada la piscifactoria de mar " + nompreP);
                     this.piscifactorias.add(new Piscifactoria(rio, nompreP));
                 } else {
                     System.out.println("No tienes suficientes monedas");
@@ -1019,6 +1071,11 @@ public class Simulador {
                 if (Monedas.getInstancia().comprobarPosible(this.mar() * 500)) {
                     Monedas.getInstancia().compra(this.mar() * 500);
                     String nompreP = nombrePisc();
+                    EscritorHelper.getEscritorHelper("")
+                            .addTrans("Comprada la piscifactoria de mar " + nompreP + "por " + (this.mar() * 500)
+                                    + "monedas");
+                    EscritorHelper.getEscritorHelper("").addLogs("Comprada la piscifactoria de mar " + nompreP);
+
                     this.piscifactorias.add(new Piscifactoria(rio, nompreP));
                 } else {
                     System.out.println("No tienes suficientes monedas");
@@ -1048,6 +1105,8 @@ public class Simulador {
         if (Monedas.getInstancia().comprobarPosible(2000)) {
             Monedas.getInstancia().compra(2000);
             AlmacenCentral.getInstance();
+            EscritorHelper.getEscritorHelper("")
+                    .addTrans("Comprado el almacén central");
             this.almacenCentral = true;
         } else {
             System.out.println("No tienes suficientes monedas");

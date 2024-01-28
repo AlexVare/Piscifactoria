@@ -3,6 +3,7 @@ package piscifactoria;
 import java.io.Console;
 import java.util.ArrayList;
 
+import inputHelper.EscritorHelper;
 import monedero.Monedas;
 import peces.ArenqueAtlantico;
 import peces.Besugo;
@@ -139,6 +140,12 @@ public class Piscifactoria {
                 if (this.almacenMax < 250) {
                     Monedas.getInstancia().compra(100);
                     this.almacenMax += 25;
+                    EscritorHelper.getEscritorHelper("")
+                            .addTrans("Mejorada la piscifactoría " + this.nombre
+                                    + " aumentando su capacidad de comida hasta un total de " + this.almacenMax
+                                    + "por un total de 100 monedas");
+                    EscritorHelper.getEscritorHelper("").addLogs("Mejorada la piscifactoría " + this.nombre
+                            + " aumentando su capacidad de comida");
                 } else {
                     System.out.println("No puedes aumentar la capacidad");
                 }
@@ -150,6 +157,12 @@ public class Piscifactoria {
                 if (this.almacenMax < 1000) {
                     Monedas.getInstancia().compra(200);
                     this.almacenMax += 100;
+                    EscritorHelper.getEscritorHelper("")
+                            .addTrans("Mejorada la piscifactoría " + this.nombre
+                                    + " aumentando su capacidad de comida hasta un total de " + this.almacenMax
+                                    + "por un total de 200 monedas");
+                    EscritorHelper.getEscritorHelper("").addLogs("Mejorada la piscifactoría " + this.nombre
+                            + " aumentando su capacidad de comida");
                 } else {
                     System.out.println("No puedes aumentar la capacidad");
                 }
@@ -167,6 +180,11 @@ public class Piscifactoria {
             if (Monedas.getInstancia().comprobarPosible(150 * this.tanques.size())) {
                 if (this.tanques.size() < 10) {
                     Monedas.getInstancia().compra(150 * this.tanques.size());
+                    EscritorHelper.getEscritorHelper("")
+                            .addTrans("Comprado un tanque número " + (this.tanques.size() + 1) + "de la piscifactoria "
+                                    + this.nombre);
+                    EscritorHelper.getEscritorHelper("").addLogs("Comprado un tanque para la piscifactoria "
+                            + this.nombre);
                     this.tanques.add(new Tanque<Pez>(25));
                 } else {
                     System.out.println("No es posible comprar un nuevo tanque, llegaste al máximo");
@@ -178,6 +196,11 @@ public class Piscifactoria {
             if (Monedas.getInstancia().comprobarPosible(600 * this.tanques.size())) {
                 if (this.tanques.size() < 10) {
                     Monedas.getInstancia().compra(600 * this.tanques.size());
+                    EscritorHelper.getEscritorHelper("")
+                            .addTrans("Comprado un tanque número " + (this.tanques.size() + 1) + "de la piscifactoria "
+                                    + this.nombre);
+                    EscritorHelper.getEscritorHelper("").addLogs("Comprado un tanque para la piscifactoria "
+                            + this.nombre);
                     this.tanques.add(new Tanque<Pez>(100));
                 } else {
                     System.out.println("No es posible comprar un nuevo tanque, llegaste al máximo");
@@ -490,8 +513,13 @@ public class Piscifactoria {
      * muertos.
      */
     public void limpiarTanques() {
-        for (Tanque<Pez> tanque : tanques) {
-            tanque.limpiarTanque();
+        for (int i = 0; i < tanques.size(); i++) {
+            tanques.get(i).limpiarTanque();
+            EscritorHelper.getEscritorHelper("")
+                    .addTrans("Limpiado el tanque " + i + " de la piscifactoria " + this.nombre);
+            EscritorHelper.getEscritorHelper("")
+                    .addLogs("Limpiado el tanque " + i + " de la piscifactoria " + this.nombre);
+
         }
     }
 
@@ -499,8 +527,13 @@ public class Piscifactoria {
      * Vacia los tanques de peces en la piscifactoria.
      */
     public void vaciarTanques() {
-        for (Tanque<Pez> tanque : tanques) {
-            tanque.vaciarTanque();
+        for (int i = 0; i < tanques.size(); i++) {
+            tanques.get(i).vaciarTanque();
+            EscritorHelper.getEscritorHelper("")
+                    .addTrans("Vaciado el tanque " + i + " de la piscifactoria " + this.nombre);
+            EscritorHelper.getEscritorHelper("")
+                    .addLogs("Vaciado el tanque " + i + " de la piscifactoria " + this.nombre);
+
         }
     }
 
@@ -524,6 +557,10 @@ public class Piscifactoria {
                 this.almacen = this.almacenMax;
             }
             System.out.println("Añadida " + cantidad + " de comida");
+            EscritorHelper.getEscritorHelper("").addTrans(
+                    cantidad + "de comida comprada por " + costo + ". Se almacena en la piscifactoria " + this.nombre);
+            EscritorHelper.getEscritorHelper("")
+                    .addLogs(cantidad + "de comida comprada. Se almacena en la piscifactoria " + this.nombre);
         } else {
             System.out.println("No tienes suficientes monedas para agregar comida.");
         }
