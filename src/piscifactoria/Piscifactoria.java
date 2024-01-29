@@ -516,9 +516,9 @@ public class Piscifactoria {
         for (int i = 0; i < tanques.size(); i++) {
             tanques.get(i).limpiarTanque();
             EscritorHelper.getEscritorHelper("")
-                    .addTrans("Limpiado el tanque " + i + " de la piscifactoria " + this.nombre);
+                    .addTrans("Limpiado el tanque " + i + " de la piscifactoria " + this.nombre + "\n");
             EscritorHelper.getEscritorHelper("")
-                    .addLogs("Limpiado el tanque " + i + " de la piscifactoria " + this.nombre);
+                    .addLogs("Limpiado el tanque " + i + " de la piscifactoria " + this.nombre + "\n");
 
         }
     }
@@ -530,9 +530,9 @@ public class Piscifactoria {
         for (int i = 0; i < tanques.size(); i++) {
             tanques.get(i).vaciarTanque();
             EscritorHelper.getEscritorHelper("")
-                    .addTrans("Vaciado el tanque " + i + " de la piscifactoria " + this.nombre);
+                    .addTrans("Vaciado el tanque " + i + " de la piscifactoria " + this.nombre + "\n");
             EscritorHelper.getEscritorHelper("")
-                    .addLogs("Vaciado el tanque " + i + " de la piscifactoria " + this.nombre);
+                    .addLogs("Vaciado el tanque " + i + " de la piscifactoria " + this.nombre + "\n");
 
         }
     }
@@ -558,9 +558,10 @@ public class Piscifactoria {
             }
             System.out.println("Añadida " + cantidad + " de comida");
             EscritorHelper.getEscritorHelper("").addTrans(
-                    cantidad + "de comida comprada por " + costo + ". Se almacena en la piscifactoria " + this.nombre);
+                    cantidad + "de comida comprada por " + costo + ". Se almacena en la piscifactoria " + this.nombre
+                            + "\n");
             EscritorHelper.getEscritorHelper("")
-                    .addLogs(cantidad + "de comida comprada. Se almacena en la piscifactoria " + this.nombre);
+                    .addLogs(cantidad + "de comida comprada. Se almacena en la piscifactoria " + this.nombre + "\n");
         } else {
             System.out.println("No tienes suficientes monedas para agregar comida.");
         }

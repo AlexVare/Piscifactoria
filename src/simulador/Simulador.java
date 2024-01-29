@@ -39,6 +39,10 @@ import rewards.Eliminar;
 import stats.Stats;
 import tanque.Tanque;
 
+/*
+ * Clase principal en la cual serealiza la simulación de una piscifactoría
+ * 
+ */
 public class Simulador {
 
     public static void main(String[] args) {
@@ -410,7 +414,6 @@ public class Simulador {
         }
         System.out.print((recompensas[18]) ? "14. Reclamar tanque de mar" : "");
         System.out.print((recompensas[19]) ? "15. Reclamar tanque de río" : "");
-        System.out.println("\n 0. Salir");
 
         seleccionarOpcion(recompensas);
 
@@ -433,6 +436,8 @@ public class Simulador {
             opcion = InputHelper.inputOption(0, 15);
 
             switch (opcion) {
+                case 0:
+                    break;
                 case 1:
                     if (Eliminar.obtenerDatos("recompensas/almacen_a.xml") >= 1
                             && Eliminar.obtenerDatos("recompensas/almacen_b.xml") >= 1
@@ -686,7 +691,7 @@ public class Simulador {
                     control = false;
                     break;
                 default:
-                    System.out.println("Selecciona una opción válida :(");
+                    break;
             }
         } while (control);
     }
@@ -811,13 +816,13 @@ public class Simulador {
                 pisc.nuevoDia(this.almacenCentral);
             }
             EscritorHelper.getEscritorHelper("")
-                    .addTrans("Fin del día" + this.dias);
-            EscritorHelper.getEscritorHelper(nombreCompa).addLogs("Fin del día" + this.dias);
+                    .addTrans("Fin del día" + this.dias + "\n");
+            EscritorHelper.getEscritorHelper(nombreCompa).addLogs("Fin del día" + this.dias + "\n");
             EscritorHelper.getEscritorHelper("")
-                    .addTrans("---------------------------------------");
+                    .addTrans("---------------------------------------" + "\n");
             this.dias++;
             EscritorHelper.getEscritorHelper("")
-                    .addTrans("Inicio del día " + this.dias);
+                    .addTrans("Inicio del día " + this.dias + "\n");
         }
     }
 
@@ -1049,8 +1054,8 @@ public class Simulador {
                 String nompreP = nombrePisc();
                 EscritorHelper.getEscritorHelper("")
                         .addTrans("Comprada la piscifactoria de río " + nompreP + "por " + (this.rio() * 500)
-                                + "monedas");
-                EscritorHelper.getEscritorHelper("").addLogs("Comprada la piscifactoria de río " + nompreP);
+                                + "monedas" + "\n");
+                EscritorHelper.getEscritorHelper("").addLogs("Comprada la piscifactoria de río " + nompreP + "\n");
                 this.piscifactorias.add(new Piscifactoria(rio, nompreP));
             } else {
                 System.out.println("No tienes suficientes monedas");
@@ -1061,8 +1066,8 @@ public class Simulador {
                     Monedas.getInstancia().compra(500);
                     String nompreP = nombrePisc();
                     EscritorHelper.getEscritorHelper("")
-                            .addTrans("Comprada la piscifactoria de mar " + nompreP + "por 500 monedas");
-                    EscritorHelper.getEscritorHelper("").addLogs("Comprada la piscifactoria de mar " + nompreP);
+                            .addTrans("Comprada la piscifactoria de mar " + nompreP + "por 500 monedas" + "\n");
+                    EscritorHelper.getEscritorHelper("").addLogs("Comprada la piscifactoria de mar " + nompreP + "\n");
                     this.piscifactorias.add(new Piscifactoria(rio, nompreP));
                 } else {
                     System.out.println("No tienes suficientes monedas");
@@ -1073,8 +1078,8 @@ public class Simulador {
                     String nompreP = nombrePisc();
                     EscritorHelper.getEscritorHelper("")
                             .addTrans("Comprada la piscifactoria de mar " + nompreP + "por " + (this.mar() * 500)
-                                    + "monedas");
-                    EscritorHelper.getEscritorHelper("").addLogs("Comprada la piscifactoria de mar " + nompreP);
+                                    + "monedas" + "\n");
+                    EscritorHelper.getEscritorHelper("").addLogs("Comprada la piscifactoria de mar " + nompreP + "\n");
 
                     this.piscifactorias.add(new Piscifactoria(rio, nompreP));
                 } else {
@@ -1106,7 +1111,7 @@ public class Simulador {
             Monedas.getInstancia().compra(2000);
             AlmacenCentral.getInstance();
             EscritorHelper.getEscritorHelper("")
-                    .addTrans("Comprado el almacén central");
+                    .addTrans("Comprado el almacén central" + "\n");
             this.almacenCentral = true;
         } else {
             System.out.println("No tienes suficientes monedas");
@@ -1189,7 +1194,7 @@ public class Simulador {
     public void save() {
         guardar();
         System.out.println("Save");
-        EscritorHelper.getEscritorHelper(nombreCompa).addLogs("Partida guardada");
+        EscritorHelper.getEscritorHelper(nombreCompa).addLogs("Partida guardada" + "\n");
         System.exit(0);
     }
 
@@ -1319,7 +1324,8 @@ public class Simulador {
             writer.write(json);
 
             // Log para indicar que el sistema ha sido guardado
-            EscritorHelper.getEscritorHelper(nombreCompa).addLogs("Partida guardada en: " + nombreArchivo + ".save");
+            EscritorHelper.getEscritorHelper(nombreCompa)
+                    .addLogs("Partida guardada en: " + nombreArchivo + ".save" + "\n");
         } catch (IOException e) {
             // Manejar la excepción en caso de error al escribir en el archivo
             e.printStackTrace();
@@ -1363,9 +1369,6 @@ public class Simulador {
                 JsonObject piscifactoriaObjeto = piscifactoriasArray.get(i).getAsJsonObject();
                 String nombrePiscifactoria = piscifactoriaObjeto.getAsJsonPrimitive("nombre").getAsString();
                 boolean tipoPiscifactoria = piscifactoriaObjeto.getAsJsonPrimitive("tipo").getAsBoolean();
-                int capacidadPiscifactoria = piscifactoriaObjeto.getAsJsonPrimitive("capacidad").getAsInt();
-                int comidaGeneralPiscifactoria = piscifactoriaObjeto.getAsJsonObject("comida")
-                        .getAsJsonPrimitive("general").getAsInt();
                 Piscifactoria piscAux;
                 if (tipoPiscifactoria) {
                     piscAux = new Piscifactoria(tipoPiscifactoria, nombrePiscifactoria);
@@ -1377,7 +1380,6 @@ public class Simulador {
                 ArrayList<Tanque<Pez>> tanquesAux = new ArrayList<>();
                 for (int idx = 0; idx < tanquesArray.size(); idx++) {
                     JsonObject tanqueObjeto = tanquesArray.get(idx).getAsJsonObject();
-                    int numTanque = tanqueObjeto.getAsJsonPrimitive("num").getAsInt();
                     String nombrePez = tanqueObjeto.getAsJsonPrimitive("pez").getAsString();
                     Tanque tanqueAux;
                     if (tipoPiscifactoria) {
@@ -1447,16 +1449,17 @@ public class Simulador {
                 piscAux.setTanques(tanquesAux);
                 piscifactorias.add(piscAux);
             }
-            EscritorHelper.getEscritorHelper(nombreCompa).addLogs("Sistema generado con éxito");
+            EscritorHelper.getEscritorHelper(nombreCompa).addLogs("Sistema generado con éxito" + "\n");
         } catch (FileNotFoundException ex) {
             EscritorHelper.getEscritorHelper(nombreCompa)
-                    .addError("Error al leer la partida guardada" + ex.getMessage());
+                    .addError("Error al leer la partida guardada" + ex.getMessage() + "\n");
 
         } finally {
             try {
                 reader.close();
             } catch (IOException e) {
-                EscritorHelper.getEscritorHelper(nombreCompa).addError("Error al cerrar el lector" + e.getMessage());
+                EscritorHelper.getEscritorHelper(nombreCompa)
+                        .addError("Error al cerrar el lector" + e.getMessage() + "\n");
             }
         }
     }

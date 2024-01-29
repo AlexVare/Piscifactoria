@@ -32,34 +32,74 @@ public abstract class Pez {
         return datos;
     }
 
+    /**
+     * Obtiene la edad del pez.
+     *
+     * @return La edad actual del pez.
+     */
     public int getEdad() {
         return edad;
     }
 
+    /**
+     * Establece la edad del pez.
+     *
+     * @param edad La nueva edad del pez.
+     */
     public void setEdad(int edad) {
         this.edad = edad;
     }
 
+    /**
+     * Verifica si el pez ha alcanzado la madurez sexual.
+     *
+     * @return `true` si el pez es maduro, `false` si no lo es.
+     */
     public boolean isMaduro() {
         return maduro;
     }
 
+    /**
+     * Establece el estado de madurez sexual del pez.
+     *
+     * @param fertil `true` si el pez es maduro, `false` si no lo es.
+     */
     public void setMaduro(boolean fertil) {
         this.maduro = fertil;
     }
 
+    /**
+     * Verifica si el pez está vivo.
+     *
+     * @return `true` si el pez está vivo, `false` si no lo está.
+     */
     public boolean isVivo() {
         return vivo;
     }
 
+    /**
+     * Establece el estado vital del pez.
+     *
+     * @param vivo `true` si el pez está vivo, `false` si no lo está.
+     */
     public void setVivo(boolean vivo) {
         this.vivo = vivo;
     }
 
+    /**
+     * Obtiene el sexo del pez como un booleano.
+     *
+     * @return `true` si el pez es macho, `false` si es hembra.
+     */
     public boolean isSexo() {
         return sexo;
     }
 
+    /**
+     * Obtiene el sexo del pez como una cadena de texto.
+     *
+     * @return "Macho" si el pez es macho, "Hembra" si es hembra.
+     */
     public String getSexo() {
         if (this.sexo) {
             return "Macho";
@@ -155,6 +195,9 @@ public abstract class Pez {
         }
     }
 
+    /*
+     * Método para comprobar si el pez es maduro o no
+     */
     public void comprobarMadurez() {
         if (this.edad >= this.datos.getMadurez()) {
             this.setMaduro(true);

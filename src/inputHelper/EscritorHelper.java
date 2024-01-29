@@ -19,7 +19,6 @@ public class EscritorHelper {
     private BufferedWriter streamTransicripcion = null;
     private BufferedWriter streamLog = null;
     private static EscritorHelper escritorHelper = null;
-
     private String partida;
 
     /**
@@ -231,31 +230,6 @@ public class EscritorHelper {
                 }
             } catch (IOException e) {
                 escritorHelper.addError("Error al cerrar el stream de errores\n");
-            }
-        }
-    }
-
-    /**
-     * Agrega una línea al archivo de guardados.
-     *
-     * @param mensaje Mensaje de guardado a agregar.
-     */
-    public void addSaves(String mensaje) {
-        BufferedWriter streamError = null;
-        try {
-            File save = new File("saves/" + partida + ".save");
-            streamError = new BufferedWriter(new FileWriter(save));
-            streamError.write(mensaje);
-            streamError.flush();
-        } catch (IOException e) {
-            escritorHelper.addError("Error al guardar la partida \n");
-        } finally {
-            try {
-                if (streamError != null) {
-                    streamError.close();
-                }
-            } catch (IOException e) {
-                escritorHelper.addError("Error al cerrar el stream de guardados \n");
             }
         }
     }

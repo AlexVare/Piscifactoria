@@ -12,7 +12,6 @@ public class Stats extends Estadisticas {
      * Instancia única de la calse Stats.
      */
     private static Stats instance = null;
-    private String[] peces;
 
     /**
      * Constructor privado para crear una instancia de Stats con los nombres de las

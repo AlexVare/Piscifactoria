@@ -37,18 +37,38 @@ public class AlmacenCentral {
         this.capacidad = 200;
     }
 
+    /**
+     * Establece la capacidad actual del almacén.
+     *
+     * @param capacidad La nueva capacidad actual del almacén.
+     */
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
     }
 
+    /**
+     * Establece la capacidad máxima del almacén.
+     *
+     * @param capacidadMax La nueva capacidad máxima del almacén.
+     */
     public void setCapacidadMax(int capacidadMax) {
         this.capacidadMax = capacidadMax;
     }
 
+    /**
+     * Obtiene la capacidad máxima del almacén.
+     *
+     * @return La capacidad máxima del almacén.
+     */
     public int getCapacidadMax() {
         return capacidadMax;
     }
 
+    /**
+     * Obtiene la capacidad actual del almacén.
+     *
+     * @return La capacidad actual del almacén.
+     */
     public int getCapacidad() {
         return capacidad;
     }
@@ -62,6 +82,11 @@ public class AlmacenCentral {
         this.capacidadMax += cantidad;
     }
 
+    /**
+     * Agrega una cantidad especificada de comida al almacén central.
+     *
+     * @param cantidad La cantidad de comida a agregar.
+     */
     public void agregarComida(int cantidad) {
         this.capacidad += cantidad;
     }
@@ -79,6 +104,11 @@ public class AlmacenCentral {
         }
     }
 
+    /**
+     * Compra una cantidad específica de comida para agregar al almacén central.
+     *
+     * @param cantidad La cantidad de comida a comprar.
+     */
     public void comprarComida(int cantidad) {
         int costo;
         if (cantidad <= 25) {
@@ -94,9 +124,9 @@ public class AlmacenCentral {
             }
             System.out.println("Añadida " + cantidad + " de comida");
             EscritorHelper.getEscritorHelper("").addTrans(
-                    cantidad + "de comida comprada por " + costo + ". Se almacena en el almacén central");
+                    cantidad + "de comida comprada por " + costo + ". Se almacena en el almacén central" + "\n");
             EscritorHelper.getEscritorHelper("")
-                    .addLogs(cantidad + "de comida comprada. Se almacena en el almacén central");
+                    .addLogs(cantidad + "de comida comprada. Se almacena en el almacén central" + "\n");
         } else {
             System.out.println("No tienes suficientes monedas para agregar comida.");
         }

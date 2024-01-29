@@ -239,7 +239,7 @@ public class Tanque<T extends Pez> {
             Constructor<? extends Pez> constructor = tipoDePez.getDeclaredConstructor(boolean.class);
             return constructor.newInstance(this.sexoNuevoPez());
         } catch (Exception e) {
-            EscritorHelper.getEscritorHelper("").addError("Error al generar un nuevo pez");
+            EscritorHelper.getEscritorHelper("").addError("Error al generar un nuevo pez" + "\n");
             return null;
         }
     }
@@ -269,7 +269,7 @@ public class Tanque<T extends Pez> {
             Monedas.getInstancia().compra(pez.getDatos().getCoste());
             this.peces.add(pez);
             EscritorHelper.getEscritorHelper("").addTrans(pez.getDatos().getNombre() + "(" + pez.getSexo() + ")"
-                    + " comprado por " + pez.getDatos().getCoste() + ". Añadido al tanque de la piscifactoria ");
+                    + " comprado por " + pez.getDatos().getCoste() + ". Añadido al tanque de la piscifactoria " + "\n");
         } else {
             System.out.println("No tienes monedas suficientes");
         }
@@ -312,7 +312,7 @@ public class Tanque<T extends Pez> {
             }
         }
         EscritorHelper.getEscritorHelper("")
-                .addTrans("Vendidos " + this.vendidos + "peces de forma manual por " + ganancias + " monedas");
+                .addTrans("Vendidos " + this.vendidos + "peces de forma manual por " + ganancias + " monedas" + "\n");
     }
 
     /**
