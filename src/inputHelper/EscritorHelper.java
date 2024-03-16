@@ -172,7 +172,7 @@ public class EscritorHelper {
      */
     public void addTrans(String mensaje) {
         try {
-            streamTransicripcion.write(mensaje);
+            streamTransicripcion.write(mensaje + "\n");
             streamTransicripcion.flush();
         } catch (IOException e) {
             escritorHelper.addError("Error al añadir una linea al archivo de transcripcion \n");
@@ -202,7 +202,7 @@ public class EscritorHelper {
      */
     public void addLogs(String mensaje) {
         try {
-            streamLog.write(obtenerHora() + " " + mensaje);
+            streamLog.write(obtenerHora() + " " + mensaje + "\n");
             streamLog.flush();
         } catch (IOException e) {
             escritorHelper.addError("Error al añadir una linea al archivo de log\n");

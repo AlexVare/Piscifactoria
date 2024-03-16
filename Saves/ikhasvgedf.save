@@ -1,0 +1,48 @@
+{
+  "implementados": [
+    "Tilapia del Nilo",
+    "Lucio del norte",
+    "Corvina",
+    "Salmón chinook",
+    "Pejerrey ",
+    "Lenguado europeo",
+    "Caballa",
+    "Róbalo",
+    "Lubina europea",
+    "Besugo",
+    "Arenque del Atlántico",
+    "Salmón atlántico"
+  ],
+  "empresa": "ikhasvgedf",
+  "dia": 45,
+  "monedas": 100,
+  "edificios": {
+    "almacen": {
+      "disponible": true,
+      "capacidad": 200,
+      "comida": {
+        "general": 200
+      }
+    }
+  },
+  "piscifactorias": [
+    {
+      "nombre": "khasvsdf",
+      "tipo": true,
+      "capacidad": 25,
+      "comida": {
+        "general": 25
+      },
+      "tanques": [
+        {
+          "pez": "",
+          "num": 0,
+          "datos": {
+            "vivos": 0,
+            "maduros": 0
+          }
+        }
+      ]
+    }
+  ]
+}

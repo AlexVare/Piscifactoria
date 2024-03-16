@@ -137,16 +137,15 @@ public abstract class Pez {
             // Verificar probabilidad de muerte antes de la madurez
             if (!this.maduro && random.nextDouble() < 0.05) {
                 this.vivo = false; // El 5% de probabilidad de morir
-            } else {
-                // Resto de la lógica cuando no muere
-                if (!this.alimentado) {
-                    this.morision();
-                }
-                if (this.vivo) {
-                    this.edad++;
-                    System.out.println(this.edad);
-                    this.comprobarMadurez();
-                }
+            }
+            // Resto de la lógica cuando no muere
+            if (!this.alimentado) {
+                this.morision();
+            }
+            if (this.vivo) {
+                this.edad++;
+                System.out.println(this.edad);
+                this.comprobarMadurez(this.edad);
             }
         }
         this.alimentado = false;
@@ -198,9 +197,10 @@ public abstract class Pez {
     /*
      * Método para comprobar si el pez es maduro o no
      */
-    public void comprobarMadurez() {
-        if (this.edad >= this.datos.getMadurez()) {
+    public void comprobarMadurez(int años) {
+        if (años >= this.datos.getMadurez()) {
             this.setMaduro(true);
+
         } else {
             this.setMaduro(false);
         }

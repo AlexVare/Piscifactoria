@@ -16,6 +16,9 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 import almacenCentral.AlmacenCentral;
+import generadorBD.ConexionBD;
+import generadorBD.DAOPedidos;
+import generadorBD.GeneradorBD;
 import inputHelper.EscritorHelper;
 import inputHelper.InputHelper;
 import monedero.Monedas;
@@ -40,7 +43,7 @@ import stats.Stats;
 import tanque.Tanque;
 
 /*
- * Clase principal en la cual serealiza la simulación de una piscifactoría
+ * Clase principal en la cual se realiza la simulación de una piscifactoría
  * 
  */
 public class Simulador {
@@ -48,7 +51,7 @@ public class Simulador {
     public static void main(String[] args) {
         Simulador simulador = new Simulador();
         int salida = 0;
-        int[] extras = { 97, 98, 99 };
+        int[] extras = { 95, 96, 97, 98, 99 };
         try {
             simulador.init();
             do {
@@ -60,7 +63,7 @@ public class Simulador {
                     System.out.println("Bienvenido de nuevo a " + simulador.getNombreCompa() + ", que desea hacer?");
                 }
                 simulador.menu();
-                salida = InputHelper.inputMenu(1, 15, extras);
+                salida = InputHelper.inputMenu(1, 16, extras);
                 System.out.println(salida);
                 switch (salida) {
                     case 1:
@@ -103,14 +106,34 @@ public class Simulador {
                         simulador.cobrarRecompensas();
                         break;
                     case 14:
+                        ArrayList<Integer> cuenta = DAOPedidos.mostrarIncompletosPedido();
+                        int[] array = cuenta.stream().mapToInt(Integer::intValue).toArray();
+                        if (cuenta.size() != 0) {
+                            System.out.println("Elige la referencia del pedido que quieres tramitar:");
+                            int ref = InputHelper.inputMenu(1, array);
+                            String pez = DAOPedidos.getPez(ref);
+                            int cantidad = DAOPedidos.getCantidad(ref);
+                            simulador.comprobarTanques(pez);
+                            DAOPedidos.tramitarPedido(ref);
+                        } else {
+                            System.out.println("No hay pedidos pendientes");
+                        }
+                        break;
+                    case 15:
                         int pasar;
                         System.out.println("Cuantos días quieres avanzar?");
                         pasar = InputHelper.inputOption(1, 100);
                         simulador.nuevoDia(pasar);
                         break;
-                    case 15:
+                    case 16:
                         EscritorHelper.getEscritorHelper(nombreCompa).addLogs("Cierre de la partida");
                         simulador.save();
+                        break;
+                    case 95:
+                        DAOPedidos.borrarDatos();
+                        break;
+                    case 96:
+                        DAOPedidos.mostrarCompletosPedido();
                         break;
                     case 97:
                         Crear.addAlmacen("A");
@@ -148,10 +171,11 @@ public class Simulador {
 
                         break;
                 }
-            } while (salida != 15);
+            } while (salida != 16);
         } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
         } finally {
+            ConexionBD.cerrarConexion();
             InputHelper.close();
             EscritorHelper.getEscritorHelper(nombreCompa).cerrarStreams();
         }
@@ -167,6 +191,8 @@ public class Simulador {
     private static String nombreCompa = "";
     private ArrayList<Piscifactoria> piscifactorias = new ArrayList<Piscifactoria>();
     private boolean almacenCentral = false;
+    GeneradorBD generadorBD;
+    DAOPedidos pedidos;
 
     public Simulador() {
     }
@@ -194,6 +220,10 @@ public class Simulador {
     public void init() {
 
         try {
+            generadorBD = new GeneradorBD(ConexionBD.obtenerConexion());
+            GeneradorBD.generarTablas(ConexionBD.obtenerConexion());
+            GeneradorBD.verificarYAgregarDatos(ConexionBD.obtenerConexion());
+            pedidos = new DAOPedidos(ConexionBD.obtenerConexion());
             File saves = new File("Saves");
             if (saves.exists() && saves.listFiles().length != 0) {
                 File[] files = saves.listFiles();
@@ -251,8 +281,9 @@ public class Simulador {
         System.out.println("11. Vaciar tanques");
         System.out.println("12. Mejorar");
         System.out.println("13. Cobrar recompensas");
-        System.out.println("14. Pasar varios días");
-        System.out.println("15. Salir");
+        System.out.println("14. Cumplimentar pedidos");
+        System.out.println("15. Pasar varios días");
+        System.out.println("16. Salir");
     }
 
     /**
@@ -812,6 +843,9 @@ public class Simulador {
      */
     public void nuevoDia(int dias) {
         for (int i = 0; i < dias; i++) {
+            if (this.dias % 10 == 0) {
+                DAOPedidos.agregarPedido();
+            }
             for (Piscifactoria pisc : piscifactorias) {
                 pisc.nuevoDia(this.almacenCentral);
             }
@@ -1461,6 +1495,22 @@ public class Simulador {
                 EscritorHelper.getEscritorHelper(nombreCompa)
                         .addError("Error al cerrar el lector" + e.getMessage() + "\n");
             }
+        }
+    }
+
+    public void comprobarTanques(String pez) {
+        selecPisc();
+        int poisc = InputHelper.inputOption(0, piscifactorias.size() - 1);
+        piscifactorias.get(poisc).listTanks();
+        int tank = InputHelper.inputOption(0, piscifactorias.get(poisc).getTanques().size() - 1);
+        if (piscifactorias.get(poisc).getTanques().get(tank).getPeces().size() != 0) {
+            if (piscifactorias.get(poisc).getTanques().get(tank).getPeces().get(0).getDatos().getNombre().equals(pez)) {
+                piscifactorias.get(poisc).getTanques().get(tank).venderPedido(tank);
+            } else {
+                System.out.println("Ese tanque no contiene " + pez);
+            }
+        } else {
+            System.out.println("Tanque vacío");
         }
     }
 }

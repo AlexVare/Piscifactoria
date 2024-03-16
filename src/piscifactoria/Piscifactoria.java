@@ -570,4 +570,14 @@ public class Piscifactoria {
     public void setTanques(ArrayList<Tanque<Pez>> tanques) {
         this.tanques = tanques;
     }
+
+    public int comprobarTanques(String pez1) {
+        for (int i = 0; i < tanques.size(); i++) {
+            Tanque<Pez> tanque = tanques.get(i);
+            if (tanque.getPeces().get(0).getDatos().getNombre().equals(pez1)) {
+                return i;
+            }
+        }
+        return 99;
+    }
 }

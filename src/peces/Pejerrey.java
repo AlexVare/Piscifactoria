@@ -1,9 +1,9 @@
 package peces;
 
-import java.util.Random;
-
+import piscifactoria.Piscifactoria;
 import propiedades.AlmacenPropiedades;
 import propiedades.PecesDatos;
+import tanque.Tanque;
 
 public class Pejerrey extends Carnivoro {
 
@@ -109,8 +109,9 @@ public class Pejerrey extends Carnivoro {
         }
     }
 
-    public void comprobarMadurez() {
-        if (this.edad >= this.datos.getMadurez()) {
+    public void comprobarMadurez(int años) {
+        this.edad = años;
+        if (años >= this.datos.getMadurez()) {
             this.setMaduro(true);
 
         } else {
@@ -125,4 +126,24 @@ public class Pejerrey extends Carnivoro {
             return false;
         }
     }
+
+    public boolean reproduccion() {
+        if (this.maduro && this.edad % this.datos.getCiclo() == 0) {
+            if (!this.sexo) {
+                this.ciclo = this.datos.getCiclo();
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            this.ciclo--;
+            return false;
+        }
+    }
+
+    @Override
+    public void grow(Tanque tanque, Piscifactoria pisc, Boolean almacenCen) {
+        super.grow(tanque, pisc, almacenCen);
+    }
+
 }

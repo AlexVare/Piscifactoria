@@ -104,8 +104,9 @@ public class Sargo extends Omnivoro {
         }
     }
 
-    public void comprobarMadurez() {
-        if (this.edad >= this.datos.getMadurez()) {
+    public void comprobarMadurez(int años) {
+        this.edad = años;
+        if (años >= this.datos.getMadurez()) {
             this.setMaduro(true);
 
         } else {
@@ -117,6 +118,20 @@ public class Sargo extends Omnivoro {
         if (this.edad == this.datos.getOptimo()) {
             return true;
         } else {
+            return false;
+        }
+    }
+
+    public boolean reproduccion() {
+        if (this.maduro && this.edad % this.datos.getCiclo() == 0) {
+            if (!this.sexo) {
+                this.ciclo = this.datos.getCiclo();
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            this.ciclo--;
             return false;
         }
     }

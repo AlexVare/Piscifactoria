@@ -315,6 +315,24 @@ public class Tanque<T extends Pez> {
                 .addTrans("Vendidos " + this.vendidos + "peces de forma manual por " + ganancias + " monedas" + "\n");
     }
 
+    public int venderPedido(int cantidad) {
+        Iterator<Pez> iterator = this.peces.iterator();
+        this.vendidos = 0;
+        this.ganancias = 0;
+        while (iterator.hasNext() && vendidos < cantidad) {
+            Pez pez = iterator.next();
+            if (pez.isMaduro() && pez.isVivo()) {
+                Monedas.getInstancia().venta(pez.getDatos().getMonedas());
+                Stats.getInstancia().registrarVenta(pez.getDatos().getNombre(), pez.getDatos().getMonedas());
+                this.vendidos++;
+                this.ganancias += pez.getDatos().getMonedas();
+                iterator.remove();
+            }
+        }
+
+        return vendidos;
+    }
+
     /**
      * Devuelve la cantidad de peces vivos en el tanque.
      *

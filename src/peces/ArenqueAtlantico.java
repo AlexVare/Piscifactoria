@@ -132,8 +132,9 @@ public class ArenqueAtlantico extends Filtrador {
         }
     }
 
-    public void comprobarMadurez() {
-        if (this.edad >= this.datos.getMadurez()) {
+    public void comprobarMadurez(int años) {
+        this.edad = años;
+        if (años >= this.datos.getMadurez()) {
             this.setMaduro(true);
 
         } else {
@@ -148,4 +149,5 @@ public class ArenqueAtlantico extends Filtrador {
             return false;
         }
     }
+
 }
