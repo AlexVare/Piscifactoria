@@ -9,33 +9,57 @@ import java.sql.Statement;
 import inputHelper.EscritorHelper;
 import propiedades.AlmacenPropiedades;
 
+/**
+ * Clase para generar las tablas y datos iniciales en la base de datos.
+ */
 public class GeneradorBD {
 
+    // PreparedStatements para insertar datos en las tablas
     private static PreparedStatement insertClienteStatement;
     private static PreparedStatement insertPezStatement;
 
+    /**
+     * Constructor de la clase GeneradorBD.
+     * 
+     * @param conexion La conexión a la base de datos.
+     */
     public GeneradorBD(Connection conexion) {
-        try {
-            inicializarPreparedStatements(conexion);
-        } catch (SQLException e) {
-            EscritorHelper.getEscritorHelper(null).addError("Error al inicializar los prepared statements" + e);
-        }
+        inicializarPreparedStatements(conexion);
     }
 
+    /**
+     * Genera las tablas en la base de datos.
+     * 
+     * @param conexion La conexión a la base de datos.
+     */
     public static void generarTablas(Connection conexion) {
         crearTablaPedido(conexion);
         crearTablaCliente(conexion);
         crearTablaPez(conexion);
     }
 
-    private void inicializarPreparedStatements(Connection conexion) throws SQLException {
-        String insertClienteSql = "INSERT INTO Cliente (nombre, NIF, telefono) VALUES (?, ?, ?)";
-        insertClienteStatement = conexion.prepareStatement(insertClienteSql);
-
-        String insertPezSql = "INSERT INTO Pez (nombre, nombre_cientifico) VALUES (?, ?)";
-        insertPezStatement = conexion.prepareStatement(insertPezSql);
+    /**
+     * Inicializa los PreparedStatement.
+     * 
+     * @param conexion La conexión a la base de datos.
+     * @throws SQLException Si hay un error al inicializar los PreparedStatement.
+     */
+    private void inicializarPreparedStatements(Connection conexion) {
+        try {
+            String insertClienteSql = "INSERT INTO Cliente (nombre, NIF, telefono) VALUES (?, ?, ?)";
+            insertClienteStatement = conexion.prepareStatement(insertClienteSql);
+            String insertPezSql = "INSERT INTO Pez (nombre, nombre_cientifico) VALUES (?, ?)";
+            insertPezStatement = conexion.prepareStatement(insertPezSql);
+        } catch (SQLException e) {
+            EscritorHelper.getEscritorHelper(null).addError("Error al inicializar los prepared statements" + e);
+        }
     }
 
+    /**
+     * Crea la tabla Cliente en la base de datos.
+     * 
+     * @param conexion La conexión a la base de datos.
+     */
     private static void crearTablaCliente(Connection conexion) {
         String sql = "CREATE TABLE IF NOT EXISTS Cliente ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
@@ -52,6 +76,11 @@ public class GeneradorBD {
         }
     }
 
+    /**
+     * Crea la tabla Pedido en la base de datos.
+     * 
+     * @param conexion La conexión a la base de datos.
+     */
     private static void crearTablaPedido(Connection conexion) {
         String sql = "CREATE TABLE IF NOT EXISTS Pedido ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
@@ -72,6 +101,11 @@ public class GeneradorBD {
         }
     }
 
+    /**
+     * Crea la tabla Pez en la base de datos.
+     * 
+     * @param conexion La conexión a la base de datos.
+     */
     private static void crearTablaPez(Connection conexion) {
         String sql = "CREATE TABLE IF NOT EXISTS Pez ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
@@ -87,6 +121,9 @@ public class GeneradorBD {
         }
     }
 
+    /**
+     * Agrega clientes a la base de datos.
+     */
     public static void agregarClientes() {
         try {
             for (int i = 0; i < 10; i++) {
@@ -106,6 +143,9 @@ public class GeneradorBD {
         }
     }
 
+    /**
+     * Registra peces en la base de datos.
+     */
     public static void registrarPeces() {
         String[] peces = { AlmacenPropiedades.BESUGO.getNombre(), AlmacenPropiedades.PEJERREY.getNombre(),
                 AlmacenPropiedades.CARPA.getNombre(), AlmacenPropiedades.SALMON_CHINOOK.getNombre(),
@@ -133,6 +173,11 @@ public class GeneradorBD {
         }
     }
 
+    /**
+     * Genera un NIF válido siguiendo las normas de España.
+     * 
+     * @return Un NIF generado aleatoriamente.
+     */
     private static String generarNIF() {
         // Generar un NIF válido siguiendo las normas de España
         char[] letrasNIF = "TRWAGMYFPDXBNJZSQVHLCKE".toCharArray();
@@ -165,6 +210,9 @@ public class GeneradorBD {
         return nif;
     }
 
+    /**
+     * Cierra los PreparedStatements.
+     */
     public static void cerrarStatements() {
         try {
             if (insertClienteStatement != null) {
@@ -178,6 +226,12 @@ public class GeneradorBD {
         }
     }
 
+    /**
+     * Verifica si las tablas de la base de datos están vacías.
+     * 
+     * @param conexion La conexión a la base de datos.
+     * @return true si las tablas están vacías, false de lo contrario.
+     */
     public static void verificarYAgregarDatos(Connection conexion) {
         if (tablasVacias(conexion)) {
             agregarClientes();
@@ -185,6 +239,12 @@ public class GeneradorBD {
         }
     }
 
+    /**
+     * Verifica si las tablas de la base de datos están vacías y agrega datos si es
+     * necesario.
+     * 
+     * @param conexion La conexión a la base de datos.
+     */
     private static boolean tablasVacias(Connection conexion) {
         try {
             Statement statement = conexion.createStatement();

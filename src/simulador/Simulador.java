@@ -114,7 +114,7 @@ public class Simulador {
                             String pez = DAOPedidos.getPez(ref);
                             int cantidad = DAOPedidos.getCantidad(ref);
                             int vendidos = simulador.comprobarTanques(pez, cantidad);
-                            DAOPedidos.tramitarPedido(ref, vendidos, cantidad);
+                            DAOPedidos.tramitarPedido(ref, vendidos, cantidad, pez);
                         } else {
                             System.out.println("No hay pedidos pendientes");
                         }
@@ -1498,14 +1498,38 @@ public class Simulador {
         }
     }
 
+    /**
+     * Este método permite verificar y vender una cantidad específica de peces de un
+     * tanque en una piscifactoría.
+     * El usuario selecciona una piscifactoría y un tanque, y luego se verifica si
+     * el tanque contiene el tipo de pez especificado.
+     * Si el tanque contiene el pez, se vende la cantidad especificada y se devuelve
+     * la cantidad vendida.
+     * Si el tanque está vacío o no contiene el pez especificado, se muestra un
+     * mensaje apropiado.
+     * 
+     * @param pez      El nombre del pez que se desea vender.
+     * @param cantidad La cantidad de peces que se desea vender.
+     * @return La cantidad de peces vendidos.
+     */
     public int comprobarTanques(String pez, int cantidad) {
+        // Variable para almacenar la cantidad de peces vendidos
         int vendidos = 0;
+
+        // Seleccionar una piscifactoría
         selecPisc();
+        // Obtener la opción seleccionada por el usuario
         int poisc = InputHelper.inputOption(0, piscifactorias.size() - 1);
+        // Mostrar los tanques disponibles en la piscifactoría seleccionada
         piscifactorias.get(poisc).listTanks();
+        // Obtener la opción seleccionada por el usuario
         int tank = InputHelper.inputOption(0, piscifactorias.get(poisc).getTanques().size() - 1);
+
+        // Verificar si el tanque seleccionado contiene peces
         if (piscifactorias.get(poisc).getTanques().get(tank).getPeces().size() != 0) {
+            // Verificar si el tipo de pez en el tanque coincide con el pez especificado
             if (piscifactorias.get(poisc).getTanques().get(tank).getPeces().get(0).getDatos().getNombre().equals(pez)) {
+                // Vender la cantidad especificada de peces del tanque
                 vendidos = piscifactorias.get(poisc).getTanques().get(tank).venderPedido(cantidad);
             } else {
                 System.out.println("Ese tanque no contiene " + pez);

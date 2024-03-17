@@ -80,7 +80,8 @@ public class Crear {
             StreamResult result = new StreamResult(file);
 
             transformer.transform(source, result);
-
+            EscritorHelper.getEscritorHelper("").addLogs("Recompensa creada");
+            EscritorHelper.getEscritorHelper("").addTrans("Recompensa almacen creada");
         } catch (Exception e) {
             EscritorHelper.getEscritorHelper("").addError("Error al crear la recompensa Almacén");
         }
@@ -151,7 +152,8 @@ public class Crear {
             StreamResult result = new StreamResult(file);
 
             transformer.transform(source, result);
-
+            EscritorHelper.getEscritorHelper("").addLogs("Recompensa creada");
+            EscritorHelper.getEscritorHelper("").addTrans("Recompensa comida creada");
         } catch (Exception e) {
             EscritorHelper.getEscritorHelper("").addError("Error al crear la recompensa comida");
 
@@ -227,7 +229,8 @@ public class Crear {
             StreamResult result = new StreamResult(file);
 
             transformer.transform(source, result);
-
+            EscritorHelper.getEscritorHelper("").addLogs("Recompensa creada");
+            EscritorHelper.getEscritorHelper("").addTrans("Recompensa monedas creada");
         } catch (Exception e) {
             EscritorHelper.getEscritorHelper("").addError("Error al crear la recompensa monedas");
 
@@ -307,7 +310,8 @@ public class Crear {
             StreamResult result = new StreamResult(file);
 
             transformer.transform(source, result);
-
+            EscritorHelper.getEscritorHelper("").addLogs("Recompensa creada");
+            EscritorHelper.getEscritorHelper("").addTrans("Recompensa piscifactoría creada");
         } catch (Exception e) {
             EscritorHelper.getEscritorHelper("").addError("Error al crear la recompensa piscifactoria");
         }
@@ -385,7 +389,8 @@ public class Crear {
             StreamResult result = new StreamResult(file);
 
             transformer.transform(source, result);
-
+            EscritorHelper.getEscritorHelper("").addLogs("Recompensa creada");
+            EscritorHelper.getEscritorHelper("").addTrans("Recompensa tanque creada");
         } catch (Exception e) {
             EscritorHelper.getEscritorHelper("").addError("Error al crear la recompensa tanque");
         }

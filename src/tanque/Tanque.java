@@ -315,6 +315,12 @@ public class Tanque<T extends Pez> {
                 .addTrans("Vendidos " + this.vendidos + "peces de forma manual por " + ganancias + " monedas" + "\n");
     }
 
+    /**
+     * Vende los peces adultos en el tanque y registra las ganancias.
+     * 
+     * @param cantidad cantidad necesaria para vender
+     * @return cantidad de peces vendidos
+     */
     public int venderPedido(int cantidad) {
         Iterator<Pez> iterator = this.peces.iterator();
         this.vendidos = 0;
