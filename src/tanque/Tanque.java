@@ -329,7 +329,6 @@ public class Tanque<T extends Pez> {
                 iterator.remove();
             }
         }
-
         return vendidos;
     }
 

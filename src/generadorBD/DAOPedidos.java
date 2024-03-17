@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import inputHelper.EscritorHelper;
+import rewards.Crear;
 
 public class DAOPedidos {
     private static final String INSERT_PEDIDO = "INSERT INTO Pedido ( referencia, cliente_id, pez_id, cantidad_solicitada, cantidad_enviada) VALUES ( ?, ?, ?, ?, ?)";
@@ -20,7 +21,8 @@ public class DAOPedidos {
     private static PreparedStatement getCompletosStatement;
     private static final String BORRAR_PEDIDO = "DELETE from pedido where id>0;";
     private static PreparedStatement borrarStatement;
-    private static final String GET_PEDIDO = "SELECT referencia as ref, pez.nombre as nombre, cantidad_solicitada as solicitada, cantidad_enviada as enviados from pedido join pez on pedido.pez_id=pez.id where pedido.referencia=?;";
+    private static final String VENTA_PEDIDO = "UPDATE pedido set cantidad_enviada=cantidad_enviada+? where referencia=?";
+    private static PreparedStatement ventaStatement;
     private static final String GET_PEZ = "SELECT pez.nombre as nombre from pedido join pez on pedido.pez_id=pez.id where pedido.referencia=?;";
     private static PreparedStatement getPezStatement;
     private static final String GET_CANTIDAD = "SELECT cantidad_solicitada as solicitada, cantidad_enviada as enviados from pedido where pedido.referencia=?;";
@@ -38,6 +40,7 @@ public class DAOPedidos {
             borrarStatement = conexion.prepareStatement(BORRAR_PEDIDO);
             getPezStatement = conexion.prepareStatement(GET_PEZ);
             getCantidadStatement = conexion.prepareStatement(GET_CANTIDAD);
+            ventaStatement = conexion.prepareStatement(VENTA_PEDIDO);
             obtenerUltimaReferencia();
         } catch (SQLException e) {
             throw new RuntimeException("Error al preparar la consulta INSERT_PEDIDO", e);
@@ -153,8 +156,19 @@ public class DAOPedidos {
         }
     }
 
-    public static void tramitarPedido(int id_pedido) {
+    public static void tramitarPedido(int id_pedido, int vendidos, int necesarios) {
+        try {
+            // Ejecutar la actualización del pedido para aumentar la cantidad enviada
+            ventaStatement.setInt(1, vendidos);
+            ventaStatement.setInt(2, id_pedido);
+            ventaStatement.executeUpdate();
+            if (vendidos == necesarios) {
+                obtenerRecompensa();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
 
+        }
     }
 
     public static String getPez(int referencia) {
@@ -185,12 +199,45 @@ public class DAOPedidos {
                 int solicitada = rs.getInt("solicitada");
                 int enviados = rs.getInt("enviados");
 
-                diferencia = enviados - solicitada;
+                diferencia = solicitada - enviados;
             }
         } catch (SQLException e) {
             e.printStackTrace();
             // Manejo del error, lanzar una excepción o devolver un valor predeterminado
         }
         return diferencia;
+    }
+
+    public static void obtenerRecompensa() {
+        Random random = new Random();
+
+        int rec = random.nextInt(10);
+
+        if (rec <= 5) {
+            int com = random.nextInt(10);
+            if (com <= 6) {
+                Crear.darComida(1);
+            } else if (com <= 9) {
+                Crear.darComida(2);
+            } else {
+                Crear.darComida(3);
+            }
+        } else if (rec <= 9) {
+            int com = random.nextInt(10);
+            if (com <= 6) {
+                Crear.darMonedas(1);
+            } else if (com <= 9) {
+                Crear.darMonedas(2);
+            } else {
+                Crear.darMonedas(3);
+            }
+        } else {
+            int tan = random.nextInt(10);
+            if (tan <= 6) {
+                Crear.addTanque("r");
+            } else {
+                Crear.addTanque("m");
+            }
+        }
     }
 }

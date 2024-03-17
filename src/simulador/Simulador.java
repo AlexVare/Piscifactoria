@@ -113,8 +113,8 @@ public class Simulador {
                             int ref = InputHelper.inputMenu(1, array);
                             String pez = DAOPedidos.getPez(ref);
                             int cantidad = DAOPedidos.getCantidad(ref);
-                            simulador.comprobarTanques(pez);
-                            DAOPedidos.tramitarPedido(ref);
+                            int vendidos = simulador.comprobarTanques(pez, cantidad);
+                            DAOPedidos.tramitarPedido(ref, vendidos, cantidad);
                         } else {
                             System.out.println("No hay pedidos pendientes");
                         }
@@ -1498,19 +1498,21 @@ public class Simulador {
         }
     }
 
-    public void comprobarTanques(String pez) {
+    public int comprobarTanques(String pez, int cantidad) {
+        int vendidos = 0;
         selecPisc();
         int poisc = InputHelper.inputOption(0, piscifactorias.size() - 1);
         piscifactorias.get(poisc).listTanks();
         int tank = InputHelper.inputOption(0, piscifactorias.get(poisc).getTanques().size() - 1);
         if (piscifactorias.get(poisc).getTanques().get(tank).getPeces().size() != 0) {
             if (piscifactorias.get(poisc).getTanques().get(tank).getPeces().get(0).getDatos().getNombre().equals(pez)) {
-                piscifactorias.get(poisc).getTanques().get(tank).venderPedido(tank);
+                vendidos = piscifactorias.get(poisc).getTanques().get(tank).venderPedido(cantidad);
             } else {
                 System.out.println("Ese tanque no contiene " + pez);
             }
         } else {
             System.out.println("Tanque vacío");
         }
+        return vendidos;
     }
 }
